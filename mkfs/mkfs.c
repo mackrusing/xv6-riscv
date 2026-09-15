@@ -132,12 +132,9 @@ main(int argc, char *argv[])
   iappend(rootino, &de, sizeof(de));
 
   for (i = 2; i < argc; i++) {
-    // get rid of "user/"
-    char *shortname;
-    if (strncmp(argv[i], "user/", 5) == 0)
-      shortname = argv[i] + 5;
-    else
-      shortname = argv[i];
+    // get rid of leading directories
+    char *shortname = strrchr(argv[i], '/');
+    shortname = shortname ? shortname + 1 : argv[i];
 
     assert(index(shortname, '/') == 0);
 
