@@ -8,70 +8,70 @@ B := build
 
 # all kernel objects
 K_OBJS := \
-	entry \
-	start \
+	bio \
 	console \
-	printk \
-	uart \
+	entry \
+	exec \
+	file \
+	fs \
 	kalloc \
-	spinlock \
-	string \
+	kernelvec \
+	log \
 	main \
-	vm \
+	pipe \
+	plic \
+	printk \
 	proc \
+	sleeplock \
+	spinlock \
+	start \
+	string \
 	swtch \
+	syscall \
+	sysfile \
+	sysproc \
 	trampoline \
 	trap \
-	syscall \
-	sysproc \
-	bio \
-	fs \
-	log \
-	sleeplock \
-	file \
-	pipe \
-	exec \
-	sysfile \
-	kernelvec \
-	plic \
-	virtio_disk
+	uart \
+	virtio_disk \
+	vm
 K_OBJS := $(addsuffix .o,$(K_OBJS))
 K_OBJS := $(addprefix $B/$K/,$(K_OBJS))
 
 # the kernel executable
-KERNEL := $B/$K/kernel
+K_BIN := $B/$K/kernel
 
 # all user objects
 U_OBJS := \
-	ulib \
-	usys \
 	printf \
-	umalloc
+	ulib \
+	umalloc \
+	usys
 U_OBJS := $(addsuffix .o,$(U_OBJS))
 U_OBJS := $(addprefix $B/$U/,$(U_OBJS))
 
 # all user binary programs
 U_BINS := \
 	cat \
+	dorphan \
 	echo \
 	forktest \
+	forphan \
 	grep \
+	grind \
 	init \
 	kill \
 	ln \
+	logstress \
 	ls \
 	mkdir \
 	rm \
 	sh \
 	stressfs \
+	sync \
 	usertests \
-	grind \
 	wc \
-	zombie \
-	logstress \
-	forphan \
-	dorphan \
-	sync
+	zombie
 U_BINS := $(addprefix $B/$U/_,$(U_BINS))
 
 # the executable used to create the filesystem
@@ -154,7 +154,7 @@ CPUS := 3
 endif
 
 # options for the emulator
-QEMUOPTS = -machine virt -bios none -kernel $(KERNEL) -m 128M -smp $(CPUS) -nographic
+QEMUOPTS = -machine virt -bios none -kernel $(K_BIN) -m 128M -smp $(CPUS) -nographic
 QEMUOPTS += -global virtio-mmio.force-legacy=false
 QEMUOPTS += -drive file=$(FS_IMG),if=none,format=raw,id=x0
 QEMUOPTS += -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -163,13 +163,17 @@ QEMUOPTS += -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 QEMU_VERSION := $(shell $(QEMU) --version | head -n 1 | sed -E 's/^QEMU emulator version ([0-9]+\.[0-9]+)\..*/\1/')
 
 # non-file related rules
-.PHONY: all clean fmt qemu qemu-gdb check-qemu-version print-gdbport
+.PHONY: all kernel user clean fmt qemu qemu-gdb check-qemu-version print-gdbport
 
 # prevent deletion of intermediate files
 .PRECIOUS: $B/$K/%.o $B/$U/%.o
 
 # default rule
-all: $(KERNEL)
+all: kernel
+
+# helper rules
+kernel: $(K_BIN)
+user: $(U_BINS)
 
 # remove build artifacts
 clean:
@@ -180,11 +184,11 @@ fmt:
 	clang-format -i $(wildcard $K/*.[ch] $U/*.[ch] $M/*.c)
 
 # run the emulator
-qemu: check-qemu-version $(KERNEL) $(FS_IMG)
+qemu: check-qemu-version $(K_BIN) $(FS_IMG)
 	$(QEMU) $(QEMUOPTS)
 
 # run the emulator but stop before first instruction and allow gdb to attach
-qemu-gdb: check-qemu-version $(KERNEL) $(FS_IMG) .gdbinit
+qemu-gdb: check-qemu-version $(K_BIN) $(FS_IMG) .gdbinit
 	@echo "*** Now run 'gdb' in another window." 1>&2
 	$(QEMU) $(QEMUOPTS) -S $(QEMUGDB)
 
@@ -200,7 +204,7 @@ print-gdbport:
 	@echo $(GDBPORT)
 
 # build kernel from linker script (and provide disassembly and symbols file)
-$(KERNEL): $(K_OBJS) $K/kernel.ld
+$(K_BIN): $(K_OBJS) $K/kernel.ld
 	@mkdir -p $(@D)
 	$(LD) $(LDFLAGS) -T $K/kernel.ld -o $@ $(K_OBJS)
 	$(OBJDUMP) -S $@ > $B/$K/kernel.asm
@@ -221,14 +225,6 @@ $B/$U/%.o: $U/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# build user executables using linker script (and provide disassembly and
-# symbols file)
-$B/$U/_%: $B/$U/%.o $(U_OBJS) $U/user.ld
-	@mkdir -p $(@D)
-	$(LD) $(LDFLAGS) -T $U/user.ld -o $@ $< $(U_OBJS)
-	$(OBJDUMP) -S $@ > $B/$U/$*.asm
-	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $B/$U/$*.sym
-
 # generate syscalls assembly from perl file
 $B/$U/usys.S: $U/usys.pl
 	@mkdir -p $(@D)
@@ -238,6 +234,14 @@ $B/$U/usys.S: $U/usys.pl
 $B/$U/usys.o: $B/$U/usys.S
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+# build user executables using linker script (and provide disassembly and
+# symbols file)
+$B/$U/_%: $B/$U/%.o $(U_OBJS) $U/user.ld
+	@mkdir -p $(@D)
+	$(LD) $(LDFLAGS) -T $U/user.ld -o $@ $< $(U_OBJS)
+	$(OBJDUMP) -S $@ > $B/$U/$*.asm
+	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $B/$U/$*.sym
 
 # compile forktest bin (and provide disassembly) with less of library code to
 # save on space in order to max out proc table
@@ -258,7 +262,7 @@ $(FS_IMG): $(MKFS) README $(U_BINS)
 
 # create gdb init file from template
 .gdbinit: .gdbinit.tmpl-riscv
-	sed "s/:1234/:$(GDBPORT)/; s|build/kernel/kernel|$(KERNEL)|" < $^ > $@
+	sed "s/:1234/:$(GDBPORT)/; s|build/kernel/kernel|$(K_BIN)|" < $^ > $@
 
 # load dependency files
 -include $B/$K/*.d $B/$U/*.d
