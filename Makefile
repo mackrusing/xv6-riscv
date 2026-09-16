@@ -1,7 +1,7 @@
-# directories for kernel and user source directories
+# directories for kernel and user source directories (and tools dir)
 K := kernel
 U := user
-M := mkfs
+T := tools
 
 # build directory
 B := build
@@ -81,7 +81,8 @@ U_PROG_BINS := \
 U_PROG_BINS := $(addprefix $B/$U/_,$(U_PROG_BINS))
 
 # the executable used to create the filesystem
-MKFS := $B/$M/mkfs
+TOOL_MKFS_DIR := $T/mkfs
+TOOL_MKFS_BIN := $B/$(TOOL_MKFS_DIR)/mkfs
 
 # the completed filesystem image
 FS_IMG := $B/fs.img
@@ -189,9 +190,9 @@ user: $(U_PROG_BINS)
 clean:
 	rm -rf $B .gdbinit
 
-# format source files
-fmt:
-	clang-format -i $(wildcard $K/*.[ch] $U/*.[ch] $M/*.c)
+# # format source files
+# fmt:
+# 	clang-format -i $(wildcard $K/*.[ch] $U/*.[ch] $M/*.c)
 
 # run the emulator
 qemu: check-qemu-version $(K_BIN) $(FS_IMG)
@@ -259,14 +260,14 @@ $B/$U/_forktest: $B/$U/forktest.o $(U_LIB_OBJS)
 	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
 
 # create the mkfs executable with host toolchain
-$(MKFS): $M/mkfs.c $K/fs.h $K/param.h
+$(TOOL_MKFS_BIN): $(TOOL_MKFS_DIR)/mkfs.c $K/fs.h $K/param.h
 	@mkdir -p $(@D)
 	gcc -Wno-unknown-attributes -I. -o $@ $<
 
 # create the disk image
-$(FS_IMG): $(MKFS) README $(U_PROG_BINS)
+$(FS_IMG): $(TOOL_MKFS_BIN) README $(U_PROG_BINS)
 	@mkdir -p $(@D)
-	$(MKFS) $@ README $(U_PROG_BINS)
+	$(TOOL_MKFS_BIN) $@ README $(U_PROG_BINS)
 
 # create gdb init file from template
 .gdbinit: .gdbinit.tmpl-riscv
