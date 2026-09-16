@@ -1,3 +1,8 @@
+#ifndef KERNEL_FILE_H
+#define KERNEL_FILE_H
+
+#include <abi/file.h>
+
 struct file {
   enum { FD_NONE, FD_PIPE, FD_INODE, FD_DEVICE } type;
   int ref; // reference count
@@ -37,4 +42,4 @@ struct devsw {
 
 extern struct devsw devsw[];
 
-#define CONSOLE 1
+#endif // KERNEL_FILE_H
