@@ -145,8 +145,8 @@ CFLAGS += -fno-pie -nopie
 endif
 
 # separate the flags for kernel and userspace code
-K_CFLAGS = -I. $(CFLAGS)
-U_CFLAGS = -I. $(CFLAGS)
+K_CFLAGS = -I. -Iinclude -Ikernel/include $(CFLAGS)
+U_CFLAGS = -I. -Iinclude $(CFLAGS)
 
 # linker flags
 LDFLAGS = -z max-page-size=4096
@@ -253,7 +253,7 @@ $B/$U/_%: $B/$U/%.o $(U_LIB_OBJS) $(U_LD)
 
 # build forktest executable with less of library code to save on space in order
 # to max out proc table. disassembly and symbols files are also created.
-$B/$U/_forktest: $B/$U/forktest.o $(U_LIB_OBJS)
+$B/$U/_forktest: $B/$U/forktest.o $B/$U/ulib.o $B/$U/usys.o
 	@mkdir -p $(@D)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $< $B/$U/ulib.o $B/$U/usys.o
 	$(OBJDUMP) -S $@ > $(basename $@).asm
