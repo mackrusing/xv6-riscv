@@ -6,7 +6,10 @@ M := mkfs
 # build directory
 B := build
 
-# all kernel objects
+# kernel linker script
+K_LD := $K/kernel.ld
+
+# all kernel objects (kernel)
 K_OBJS := \
 	bio \
 	console \
@@ -41,17 +44,20 @@ K_OBJS := $(addprefix $B/$K/,$(K_OBJS))
 # the kernel executable
 K_BIN := $B/$K/kernel
 
-# all user objects
-U_OBJS := \
+# user linker script
+U_LD = $U/user.ld
+
+# user library objects (user/lib)
+U_LIB_OBJS := \
 	printf \
 	ulib \
 	umalloc \
 	usys
-U_OBJS := $(addsuffix .o,$(U_OBJS))
-U_OBJS := $(addprefix $B/$U/,$(U_OBJS))
+U_LIB_OBJS := $(addsuffix .o,$(U_LIB_OBJS))
+U_LIB_OBJS := $(addprefix $B/$U/,$(U_LIB_OBJS))
 
-# all user binary programs
-U_BINS := \
+# all user program executables (user)
+U_PROG_BINS := \
 	cat \
 	dorphan \
 	echo \
@@ -72,7 +78,7 @@ U_BINS := \
 	usertests \
 	wc \
 	zombie
-U_BINS := $(addprefix $B/$U/_,$(U_BINS))
+U_PROG_BINS := $(addprefix $B/$U/_,$(U_PROG_BINS))
 
 # the executable used to create the filesystem
 MKFS := $B/$M/mkfs
@@ -111,22 +117,22 @@ OBJDUMP = $(TOOLPREFIX)objdump
 # flags for deterministic builds
 DETFLAGS = -ffile-prefix-map=$(CURDIR)=.
 
-# regular compiler toolchain flags
-CFLAGS = -Wall -Werror -Wno-unknown-attributes -O -fno-omit-frame-pointer -ggdb -gdwarf-2
+# compiler toolchain flags
+CFLAGS = -Wall -Werror -Wno-unknown-attributes -Wno-main
+CFLAGS += -O -fno-omit-frame-pointer -ggdb -gdwarf-2
 CFLAGS += $(DETFLAGS)
-CFLAGS += -march=rv64gc
+CFLAGS += -MD
 CFLAGS += -std=gnu99
-CFLAGS += -MD # generate .d files alongside .o that list includes (dependencies)
+CFLAGS += -march=rv64gc
 CFLAGS += -mcmodel=medany
 CFLAGS += -ffreestanding
 CFLAGS += -fno-common -nostdlib
-CFLAGS += -fno-builtin-strncpy -fno-builtin-strncmp -fno-builtin-strlen -fno-builtin-memset
-CFLAGS += -fno-builtin-memmove -fno-builtin-memcmp -fno-builtin-log -fno-builtin-bzero
-CFLAGS += -fno-builtin-strchr -fno-builtin-exit -fno-builtin-malloc -fno-builtin-putc
-CFLAGS += -fno-builtin-free
-CFLAGS += -fno-builtin-memcpy -Wno-main
-CFLAGS += -fno-builtin-printf -fno-builtin-fprintf -fno-builtin-vprintf
-CFLAGS += -I.
+CFLAGS += -fno-builtin-strncpy -fno-builtin-strncmp -fno-builtin-strlen \
+	-fno-builtin-memset -fno-builtin-memmove -fno-builtin-memcmp \
+	-fno-builtin-log -fno-builtin-bzero -fno-builtin-strchr \
+	-fno-builtin-exit -fno-builtin-malloc -fno-builtin-putc \
+	-fno-builtin-free -fno-builtin-memcpy -fno-builtin-printf \
+	-fno-builtin-fprintf -fno-builtin-vprintf
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
 
 # disable position independent executables when possible
@@ -136,6 +142,10 @@ endif
 ifneq ($(shell $(CC) -dumpspecs 2>/dev/null | grep -e '[^f]nopie'),)
 CFLAGS += -fno-pie -nopie
 endif
+
+# separate the flags for kernel and userspace code
+K_CFLAGS = -I. $(CFLAGS)
+U_CFLAGS = -I. $(CFLAGS)
 
 # linker flags
 LDFLAGS = -z max-page-size=4096
@@ -173,7 +183,7 @@ all: kernel
 
 # helper rules
 kernel: $(K_BIN)
-user: $(U_BINS)
+user: $(U_PROG_BINS)
 
 # remove build artifacts
 clean:
@@ -203,52 +213,50 @@ check-qemu-version:
 print-gdbport:
 	@echo $(GDBPORT)
 
-# build kernel from linker script (and provide disassembly and symbols file)
-$(K_BIN): $(K_OBJS) $K/kernel.ld
+# build kernel executable using linker script (and provide disassembly and
+# symbols files alongside it)
+$(K_BIN): $(K_OBJS) $(K_LD)
 	@mkdir -p $(@D)
-	$(LD) $(LDFLAGS) -T $K/kernel.ld -o $@ $(K_OBJS)
-	$(OBJDUMP) -S $@ > $B/$K/kernel.asm
-	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $B/$K/kernel.sym
+	$(LD) $(LDFLAGS) -T $(K_LD) -o $@ $(K_OBJS)
+	$(OBJDUMP) -S $@ > $(basename $@).asm
+	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
 
-# build kernel c files into object files
+# build kernel object files from c
 $B/$K/%.o: $K/%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(K_CFLAGS) -c -o $@ $<
 
-# build kernel assembly files into object files
+# build kernel object files from assembly
 $B/$K/%.o: $K/%.S
 	@mkdir -p $(@D)
-	$(CC) -march=rv64gc -g $(DETFLAGS) -c -o $@ $<
+	$(CC) $(K_CFLAGS) -c -o $@ $<
 
-# build user c files into object files
+# build user object files from c
 $B/$U/%.o: $U/%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(U_CFLAGS) -c -o $@ $<
 
-# generate syscalls assembly from perl file
-$B/$U/usys.S: $U/usys.pl
+# build the usys object from perl -> assembly -> object
+$B/$U/usys.o: $U/usys.pl
 	@mkdir -p $(@D)
-	perl $< > $@
-
-# compile the generated syscall assembly into object file
-$B/$U/usys.o: $B/$U/usys.S
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c -o $@ $<
+	perl $< > $(basename $@).S
+	$(CC) $(U_CFLAGS) -c -o $@ $(basename $@).S
 
 # build user executables using linker script (and provide disassembly and
-# symbols file)
-$B/$U/_%: $B/$U/%.o $(U_OBJS) $U/user.ld
+# symbols files alongside them)
+$B/$U/_%: $B/$U/%.o $(U_LIB_OBJS) $(U_LD)
 	@mkdir -p $(@D)
-	$(LD) $(LDFLAGS) -T $U/user.ld -o $@ $< $(U_OBJS)
-	$(OBJDUMP) -S $@ > $B/$U/$*.asm
-	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $B/$U/$*.sym
+	$(LD) $(LDFLAGS) -T $(U_LD) -o $@ $< $(U_LIB_OBJS)
+	$(OBJDUMP) -S $@ > $(basename $@).asm
+	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
 
-# compile forktest bin (and provide disassembly) with less of library code to
-# save on space in order to max out proc table
-$B/$U/_forktest: $B/$U/forktest.o $(U_OBJS)
+# build forktest executable with less of library code to save on space in order
+# to max out proc table. disassembly and symbols files are also created.
+$B/$U/_forktest: $B/$U/forktest.o $(U_LIB_OBJS)
 	@mkdir -p $(@D)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $< $B/$U/ulib.o $B/$U/usys.o
-	$(OBJDUMP) -S $@ > $B/$U/forktest.asm
+	$(OBJDUMP) -S $@ > $(basename $@).asm
+	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
 
 # create the mkfs executable with host toolchain
 $(MKFS): $M/mkfs.c $K/fs.h $K/param.h
@@ -256,9 +264,9 @@ $(MKFS): $M/mkfs.c $K/fs.h $K/param.h
 	gcc -Wno-unknown-attributes -I. -o $@ $<
 
 # create the disk image
-$(FS_IMG): $(MKFS) README $(U_BINS)
+$(FS_IMG): $(MKFS) README $(U_PROG_BINS)
 	@mkdir -p $(@D)
-	$< $@ README $(U_BINS)
+	$(MKFS) $@ README $(U_PROG_BINS)
 
 # create gdb init file from template
 .gdbinit: .gdbinit.tmpl-riscv
