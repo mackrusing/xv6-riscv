@@ -7,7 +7,7 @@
 #include "kernel/fs.h"
 #include "kernel/file.h"
 #include "user/user.h"
-#include "kernel/fcntl.h"
+#include <abi/fcntl.h>
 
 char *argv[] = {"sh", 0};
 

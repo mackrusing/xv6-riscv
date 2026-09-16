@@ -2,7 +2,7 @@
 #include "kernel/stat.h"
 #include "user/user.h"
 #include "kernel/fs.h"
-#include "kernel/fcntl.h"
+#include <abi/fcntl.h>
 
 char *
 fmtname(char *path)
