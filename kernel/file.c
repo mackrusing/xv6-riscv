@@ -2,7 +2,7 @@
 // Support functions for system calls that involve file descriptors.
 //
 
-#include "types.h"
+#include <abi/types.h>
 #include "riscv.h"
 #include "defs.h"
 #include "param.h"

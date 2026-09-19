@@ -4,7 +4,7 @@
 
 #include <stdarg.h>
 
-#include "types.h"
+#include <abi/types.h>
 #include "param.h"
 #include "spinlock.h"
 #include "sleeplock.h"

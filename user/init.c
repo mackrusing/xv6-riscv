@@ -1,6 +1,6 @@
 // init: The initial user-level program
 
-#include "kernel/types.h"
+#include <abi/types.h>
 #include "kernel/stat.h"
 #include "kernel/spinlock.h"
 #include "kernel/sleeplock.h"

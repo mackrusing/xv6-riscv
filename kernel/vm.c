@@ -1,5 +1,5 @@
 #include "param.h"
-#include "types.h"
+#include <abi/types.h>
 #include "memlayout.h"
 #include "elf.h"
 #include "riscv.h"

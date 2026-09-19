@@ -4,7 +4,7 @@
 // user code, and calls into file.c and fs.c.
 //
 
-#include "types.h"
+#include <abi/types.h>
 #include "riscv.h"
 #include "defs.h"
 #include "param.h"

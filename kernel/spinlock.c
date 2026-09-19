@@ -1,6 +1,6 @@
 // Mutual exclusion spin locks.
 
-#include "types.h"
+#include <abi/types.h>
 #include "param.h"
 #include "memlayout.h"
 #include "spinlock.h"

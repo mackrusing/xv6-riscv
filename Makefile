@@ -262,7 +262,7 @@ $B/$U/_forktest: $B/$U/forktest.o $B/$U/ulib.o $B/$U/usys.o
 # create the mkfs executable with host toolchain
 $(TOOL_MKFS_BIN): $(TOOL_MKFS_DIR)/mkfs.c $K/fs.h $K/param.h
 	@mkdir -p $(@D)
-	gcc -Wno-unknown-attributes -I. -o $@ $<
+	gcc -Wno-unknown-attributes -I. -Iinclude -o $@ $<
 
 # create the disk image
 $(FS_IMG): $(TOOL_MKFS_BIN) README $(U_PROG_BINS)

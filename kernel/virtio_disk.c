@@ -5,7 +5,7 @@
 // qemu ... -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 //
 
-#include "types.h"
+#include <abi/types.h>
 #include "riscv.h"
 #include "defs.h"
 #include "param.h"
