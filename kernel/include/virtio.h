@@ -7,6 +7,9 @@
 // https://docs.oasis-open.org/virtio/virtio/v1.1/virtio-v1.1.pdf
 //
 
+#ifndef KERNEL_VIRTIO_H
+#define KERNEL_VIRTIO_H
+
 // virtio mmio control registers, mapped starting at 0x10001000.
 // from qemu virtio_mmio.h
 // clang-format off
@@ -97,3 +100,5 @@ struct virtio_blk_req {
   uint32 reserved;
   uint64 sector;
 };
+
+#endif // KERNEL_VIRTIO_H

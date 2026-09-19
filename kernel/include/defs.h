@@ -1,3 +1,6 @@
+#ifndef KERNEL_DEFS_H
+#define KERNEL_DEFS_H
+
 // clang-format off
 struct buf;
 struct context;
@@ -184,3 +187,5 @@ void            virtio_disk_intr(void);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x) / sizeof((x)[0]))
+
+#endif // KERNEL_DEFS_H
