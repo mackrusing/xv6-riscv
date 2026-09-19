@@ -1,5 +1,5 @@
 #include <abi/types.h>
-#include "kernel/stat.h"
+#include <abi/stat.h>
 #include <abi/fcntl.h>
 #include "kernel/riscv.h"
 #include <abi/vm.h>

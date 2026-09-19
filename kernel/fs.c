@@ -13,7 +13,7 @@
 #include "riscv.h"
 #include "defs.h"
 #include "param.h"
-#include "stat.h"
+#include <abi/stat.h>
 #include "spinlock.h"
 #include "proc.h"
 #include "sleeplock.h"

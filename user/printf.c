@@ -1,5 +1,5 @@
 #include <abi/types.h>
-#include "kernel/stat.h"
+#include <abi/stat.h>
 #include "user/user.h"
 
 #include <stdarg.h>

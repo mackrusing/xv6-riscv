@@ -1,6 +1,6 @@
 #include "kernel/param.h"
 #include <abi/types.h>
-#include "kernel/stat.h"
+#include <abi/stat.h>
 #include "user/user.h"
 #include "kernel/fs.h"
 #include <abi/fcntl.h>

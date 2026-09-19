@@ -10,7 +10,7 @@
 #include "spinlock.h"
 #include "sleeplock.h"
 #include "file.h"
-#include "stat.h"
+#include <abi/stat.h>
 #include "proc.h"
 
 struct devsw devsw[NDEV];
