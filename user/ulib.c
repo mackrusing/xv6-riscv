@@ -2,7 +2,7 @@
 #include "kernel/stat.h"
 #include <abi/fcntl.h>
 #include "kernel/riscv.h"
-#include "kernel/vm.h"
+#include <abi/vm.h>
 #include "user/user.h"
 
 //
