@@ -4,7 +4,7 @@
 #include "user/user.h"
 #include "kernel/fs.h"
 #include <abi/fcntl.h>
-#include "kernel/syscall.h"
+#include <abi/syscall.h>
 #include "kernel/memlayout.h"
 #include "kernel/riscv.h"
 
