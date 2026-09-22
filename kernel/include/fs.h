@@ -1,6 +1,11 @@
 // On-disk file system format.
 // Both the kernel and user programs use this header file.
 
+#ifndef KERNEL_FS_H
+#define KERNEL_FS_H
+
+#include <abi/fs.h>
+
 #define ROOTINO 1    // root i-number
 #define BSIZE   1024 // block size
 
@@ -50,12 +55,4 @@ struct dinode {
 // Block of free map containing bit for block b
 #define BBLOCK(b, sb) ((b) / BPB + sb.bmapstart)
 
-// Directory is a file containing a sequence of dirent structures.
-#define DIRSIZ 14
-
-// The name field may have DIRSIZ characters and not end in a NUL
-// character.
-struct dirent {
-  ushort inum;
-  char name[DIRSIZ] __attribute__((nonstring));
-};
+#endif // KERNEL_FS_H

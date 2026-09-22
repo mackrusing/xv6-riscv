@@ -4,7 +4,7 @@
 #include <abi/stat.h>
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
-#include "kernel/fs.h"
+#include <abi/fs.h>
 #include <abi/file.h>
 #include <user.h>
 #include <abi/fcntl.h>

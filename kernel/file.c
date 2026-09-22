@@ -6,7 +6,7 @@
 #include "riscv.h"
 #include "defs.h"
 #include <abi/param.h>
-#include "fs.h"
+#include <fs.h>
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
 #include "file.h"

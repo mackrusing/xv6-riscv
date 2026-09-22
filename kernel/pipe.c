@@ -4,7 +4,7 @@
 #include <abi/param.h>
 #include <abi/spinlock.h>
 #include "proc.h"
-#include "fs.h"
+#include <fs.h>
 #include <abi/sleeplock.h>
 #include "file.h"
 

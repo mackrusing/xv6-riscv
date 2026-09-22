@@ -17,7 +17,7 @@
 #include <abi/spinlock.h>
 #include "proc.h"
 #include <abi/sleeplock.h>
-#include "fs.h"
+#include <fs.h>
 #include "buf.h"
 #include "file.h"
 

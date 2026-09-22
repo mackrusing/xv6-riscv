@@ -4,7 +4,7 @@
 #include <abi/param.h>
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
-#include "fs.h"
+#include <fs.h>
 #include "buf.h"
 
 // Simple logging that allows concurrent FS system calls.

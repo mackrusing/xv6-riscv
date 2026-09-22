@@ -6,7 +6,7 @@
 #include "defs.h"
 #include <abi/spinlock.h>
 #include "proc.h"
-#include "fs.h"
+#include <fs.h>
 
 /*
  * the kernel's page table.

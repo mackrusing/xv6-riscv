@@ -6,7 +6,7 @@
 #include <abi/types.h>
 #include <abi/stat.h>
 #include <user.h>
-#include "kernel/fs.h"
+#include <kernel/include/fs.h>
 #include <abi/fcntl.h>
 #include <abi/syscall.h>
 #include <kernel/include/memlayout.h>
