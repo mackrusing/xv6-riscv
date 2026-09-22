@@ -6,8 +6,8 @@
 #include <abi/param.h>
 #include <memlayout.h>
 #include "riscv.h"
-#include "spinlock.h"
-#include "sleeplock.h"
+#include <abi/spinlock.h>
+#include <abi/sleeplock.h>
 #include "proc.h"
 #include "defs.h"
 

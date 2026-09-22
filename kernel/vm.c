@@ -4,7 +4,7 @@
 #include "elf.h"
 #include "riscv.h"
 #include "defs.h"
-#include "spinlock.h"
+#include <abi/spinlock.h>
 #include "proc.h"
 #include "fs.h"
 

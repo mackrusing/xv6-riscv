@@ -15,8 +15,8 @@
 
 #include <abi/types.h>
 #include <abi/param.h>
-#include "spinlock.h"
-#include "sleeplock.h"
+#include <abi/spinlock.h>
+#include <abi/sleeplock.h>
 #include "riscv.h"
 #include "defs.h"
 #include "fs.h"

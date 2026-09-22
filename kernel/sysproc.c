@@ -3,7 +3,7 @@
 #include "defs.h"
 #include <abi/param.h>
 #include <memlayout.h>
-#include "spinlock.h"
+#include <abi/spinlock.h>
 #include "proc.h"
 #include <abi/vm.h>
 

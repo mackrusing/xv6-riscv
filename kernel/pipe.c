@@ -2,10 +2,10 @@
 #include "riscv.h"
 #include "defs.h"
 #include <abi/param.h>
-#include "spinlock.h"
+#include <abi/spinlock.h>
 #include "proc.h"
 #include "fs.h"
-#include "sleeplock.h"
+#include <abi/sleeplock.h>
 #include "file.h"
 
 #define PIPESIZE 512

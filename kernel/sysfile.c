@@ -9,10 +9,10 @@
 #include "defs.h"
 #include <abi/param.h>
 #include <abi/stat.h>
-#include "spinlock.h"
+#include <abi/spinlock.h>
 #include "proc.h"
 #include "fs.h"
-#include "sleeplock.h"
+#include <abi/sleeplock.h>
 #include "file.h"
 #include <abi/fcntl.h>
 

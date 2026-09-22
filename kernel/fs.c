@@ -14,9 +14,9 @@
 #include "defs.h"
 #include <abi/param.h>
 #include <abi/stat.h>
-#include "spinlock.h"
+#include <abi/spinlock.h>
 #include "proc.h"
-#include "sleeplock.h"
+#include <abi/sleeplock.h>
 #include "fs.h"
 #include "buf.h"
 #include "file.h"
