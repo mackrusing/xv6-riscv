@@ -59,26 +59,22 @@ U_LIB_OBJS := $(addprefix $B/$U/,$(U_LIB_OBJS))
 # all user program executables (user)
 U_PROG_BINS := \
 	cat \
-	dorphan \
 	echo \
-	forktest \
-	forphan \
 	grep \
-	grind \
 	init \
 	kill \
 	ln \
-	logstress \
 	ls \
 	mkdir \
 	rm \
 	sh \
-	stressfs \
 	sync \
-	usertests \
-	wc \
-	zombie
+	wc
 U_PROG_BINS := $(addprefix $B/$U/_,$(U_PROG_BINS))
+
+# all user test executables (user/tests)
+U_TEST_BINS := $(sort $(wildcard $U/tests/*.c))
+U_TEST_BINS := $(patsubst $U/tests/%.c,$B/$U/tests/_%,$(U_TEST_BINS))
 
 # the executable used to create the filesystem
 TOOL_MKFS_DIR := $T/mkfs
@@ -177,22 +173,18 @@ QEMU_VERSION := $(shell $(QEMU) --version | head -n 1 | sed -E 's/^QEMU emulator
 .PHONY: all kernel user clean fmt qemu qemu-gdb check-qemu-version print-gdbport
 
 # prevent deletion of intermediate files
-.PRECIOUS: $B/$K/%.o $B/$U/%.o
+.PRECIOUS: $B/$K/%.o $B/$U/%.o $B/$U/tests/%.o
 
 # default rule
 all: kernel
 
 # helper rules
 kernel: $(K_BIN)
-user: $(U_PROG_BINS)
+user: $(U_PROG_BINS) $(U_TEST_BINS)
 
 # remove build artifacts
 clean:
 	rm -rf $B .gdbinit
-
-# # format source files
-# fmt:
-# 	clang-format -i $(wildcard $K/*.[ch] $U/*.[ch] $M/*.c)
 
 # run the emulator
 qemu: check-qemu-version $(K_BIN) $(FS_IMG)
@@ -243,6 +235,11 @@ $B/$U/usys.o: $U/usys.pl
 	perl $< > $(basename $@).S
 	$(CC) $(U_CFLAGS) -c -o $@ $(basename $@).S
 
+# build user test object files from c
+$B/$U/tests/%.o: $U/tests/%.c
+	@mkdir -p $(@D)
+	$(CC) $(U_CFLAGS) -I. -c -o $@ $<
+
 # build user executables using linker script (and provide disassembly and
 # symbols files alongside them)
 $B/$U/_%: $B/$U/%.o $(U_LIB_OBJS) $(U_LD)
@@ -251,9 +248,17 @@ $B/$U/_%: $B/$U/%.o $(U_LIB_OBJS) $(U_LD)
 	$(OBJDUMP) -S $@ > $(basename $@).asm
 	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
 
+# build user test executables using linker script (and provide disassembly and
+# symbols files alongside them)
+$B/$U/tests/_%: $B/$U/tests/%.o $(U_LIB_OBJS) $(U_LD)
+	@mkdir -p $(@D)
+	$(LD) $(LDFLAGS) -T $(U_LD) -o $@ $< $(U_LIB_OBJS)
+	$(OBJDUMP) -S $@ > $(basename $@).asm
+	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
+
 # build forktest executable with less of library code to save on space in order
 # to max out proc table. disassembly and symbols files are also created.
-$B/$U/_forktest: $B/$U/forktest.o $B/$U/ulib.o $B/$U/usys.o
+$B/$U/tests/_forktest: $B/$U/tests/forktest.o $B/$U/ulib.o $B/$U/usys.o
 	@mkdir -p $(@D)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $< $B/$U/ulib.o $B/$U/usys.o
 	$(OBJDUMP) -S $@ > $(basename $@).asm
@@ -265,13 +270,13 @@ $(TOOL_MKFS_BIN): $(TOOL_MKFS_DIR)/mkfs.c $K/fs.h $K/param.h
 	gcc -Wno-unknown-attributes -I. -Iinclude -o $@ $<
 
 # create the disk image
-$(FS_IMG): $(TOOL_MKFS_BIN) README $(U_PROG_BINS)
+$(FS_IMG): $(TOOL_MKFS_BIN) README $(U_PROG_BINS) $(U_TEST_BINS)
 	@mkdir -p $(@D)
-	$(TOOL_MKFS_BIN) $@ README $(U_PROG_BINS)
+	$(TOOL_MKFS_BIN) $@ README $(U_PROG_BINS) $(U_TEST_BINS)
 
 # create gdb init file from template
 .gdbinit: .gdbinit.tmpl-riscv
 	sed "s/:1234/:$(GDBPORT)/; s|build/kernel/kernel|$(K_BIN)|" < $^ > $@
 
 # load dependency files
--include $B/$K/*.d $B/$U/*.d
+-include $B/$K/*.d $B/$U/*.d $B/$U/tests/*.d
