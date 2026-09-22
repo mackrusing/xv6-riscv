@@ -48,13 +48,9 @@ K_BIN := $B/$K/kernel
 U_LD = $U/user.ld
 
 # user library objects (user/lib)
-U_LIB_OBJS := \
-	printf \
-	ulib \
-	umalloc \
-	usys
+U_LIB_OBJS := printf ulib umalloc usys
 U_LIB_OBJS := $(addsuffix .o,$(U_LIB_OBJS))
-U_LIB_OBJS := $(addprefix $B/$U/,$(U_LIB_OBJS))
+U_LIB_OBJS := $(addprefix $B/$U/lib/,$(U_LIB_OBJS))
 
 # all user program executables (user)
 U_PROG_BINS := \
@@ -173,7 +169,7 @@ QEMU_VERSION := $(shell $(QEMU) --version | head -n 1 | sed -E 's/^QEMU emulator
 .PHONY: all kernel user clean fmt qemu qemu-gdb check-qemu-version print-gdbport
 
 # prevent deletion of intermediate files
-.PRECIOUS: $B/$K/%.o $B/$U/%.o $B/$U/tests/%.o
+.PRECIOUS: $B/$K/%.o $B/$U/%.o $B/$U/lib/%.o $B/$U/tests/%.o
 
 # default rule
 all: kernel
@@ -224,13 +220,18 @@ $B/$K/%.o: $K/%.S
 	@mkdir -p $(@D)
 	$(CC) $(K_CFLAGS) -c -o $@ $<
 
-# build user object files from c
+# build user program object files from c
 $B/$U/%.o: $U/%.c
 	@mkdir -p $(@D)
 	$(CC) $(U_CFLAGS) -c -o $@ $<
 
+# build user library object files from c
+$B/$U/lib/%.o: $U/lib/%.c
+	@mkdir -p $(@D)
+	$(CC) $(U_CFLAGS) -c -o $@ $<
+
 # build the usys object from perl -> assembly -> object
-$B/$U/usys.o: $U/usys.pl
+$B/$U/lib/usys.o: $U/lib/usys.pl
 	@mkdir -p $(@D)
 	perl $< > $(basename $@).S
 	$(CC) $(U_CFLAGS) -c -o $@ $(basename $@).S
@@ -258,9 +259,9 @@ $B/$U/tests/_%: $B/$U/tests/%.o $(U_LIB_OBJS) $(U_LD)
 
 # build forktest executable with less of library code to save on space in order
 # to max out proc table. disassembly and symbols files are also created.
-$B/$U/tests/_forktest: $B/$U/tests/forktest.o $B/$U/ulib.o $B/$U/usys.o
+$B/$U/tests/_forktest: $B/$U/tests/forktest.o $B/$U/lib/ulib.o $B/$U/lib/usys.o
 	@mkdir -p $(@D)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $< $B/$U/ulib.o $B/$U/usys.o
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $< $B/$U/lib/ulib.o $B/$U/lib/usys.o
 	$(OBJDUMP) -S $@ > $(basename $@).asm
 	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
 
@@ -279,4 +280,4 @@ $(FS_IMG): $(TOOL_MKFS_BIN) README $(U_PROG_BINS) $(U_TEST_BINS)
 	sed "s/:1234/:$(GDBPORT)/; s|build/kernel/kernel|$(K_BIN)|" < $^ > $@
 
 # load dependency files
--include $B/$K/*.d $B/$U/*.d $B/$U/tests/*.d
+-include $B/$K/*.d $B/$U/*.d $B/$U/lib/*.d $B/$U/tests/*.d
