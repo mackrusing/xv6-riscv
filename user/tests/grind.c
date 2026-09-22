@@ -9,7 +9,7 @@
 #include "kernel/fs.h"
 #include <abi/fcntl.h>
 #include <abi/syscall.h>
-#include "kernel/memlayout.h"
+#include <kernel/include/memlayout.h>
 #include "kernel/riscv.h"
 
 // from FreeBSD.

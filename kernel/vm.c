@@ -1,6 +1,6 @@
 #include "param.h"
 #include <abi/types.h>
-#include "memlayout.h"
+#include <memlayout.h>
 #include "elf.h"
 #include "riscv.h"
 #include "defs.h"
