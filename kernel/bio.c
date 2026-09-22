@@ -14,7 +14,7 @@
 //     so do not keep them longer than necessary.
 
 #include <abi/types.h>
-#include "param.h"
+#include <abi/param.h>
 #include "spinlock.h"
 #include "sleeplock.h"
 #include "riscv.h"

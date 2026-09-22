@@ -1,7 +1,7 @@
 #include <abi/types.h>
 #include <abi/stat.h>
 #include <user.h>
-#include "kernel/param.h"
+#include <abi/param.h>
 
 // Memory allocator by Kernighan and Ritchie,
 // The C programming Language, 2nd ed.  Section 8.7.

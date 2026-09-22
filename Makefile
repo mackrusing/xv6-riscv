@@ -266,7 +266,7 @@ $B/$U/tests/_forktest: $B/$U/tests/forktest.o $B/$U/lib/ulib.o $B/$U/lib/usys.o
 	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
 
 # create the mkfs executable with host toolchain
-$(TOOL_MKFS_BIN): $(TOOL_MKFS_DIR)/mkfs.c $K/fs.h $K/param.h
+$(TOOL_MKFS_BIN): $(TOOL_MKFS_DIR)/mkfs.c $K/fs.h include/abi/param.h
 	@mkdir -p $(@D)
 	gcc -Wno-unknown-attributes -I. -Iinclude -o $@ $<
 

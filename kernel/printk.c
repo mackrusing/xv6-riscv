@@ -5,7 +5,7 @@
 #include <stdarg.h>
 
 #include <abi/types.h>
-#include "param.h"
+#include <abi/param.h>
 #include "spinlock.h"
 #include "sleeplock.h"
 #include "fs.h"

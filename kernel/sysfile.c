@@ -7,7 +7,7 @@
 #include <abi/types.h>
 #include "riscv.h"
 #include "defs.h"
-#include "param.h"
+#include <abi/param.h>
 #include <abi/stat.h>
 #include "spinlock.h"
 #include "proc.h"

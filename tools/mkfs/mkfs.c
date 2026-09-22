@@ -9,7 +9,7 @@
 #include <abi/types.h>
 #include "kernel/fs.h"
 #include <abi/stat.h>
-#include "kernel/param.h"
+#include <abi/param.h>
 
 #ifndef static_assert
 #define static_assert(a, b)                                                    \

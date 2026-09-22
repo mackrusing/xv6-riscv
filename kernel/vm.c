@@ -1,4 +1,4 @@
-#include "param.h"
+#include <abi/param.h>
 #include <abi/types.h>
 #include <memlayout.h>
 #include "elf.h"
