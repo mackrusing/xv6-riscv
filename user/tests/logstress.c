@@ -1,7 +1,7 @@
 #include <abi/types.h>
 #include <abi/stat.h>
 #include <abi/fcntl.h>
-#include "user/user.h"
+#include <user.h>
 
 // Stress xv6 logging system by having several processes writing
 // concurrently to their own file (e.g., logstress f1 f2 f3 f4)

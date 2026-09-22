@@ -1,6 +1,6 @@
 #include <abi/types.h>
 #include <abi/fcntl.h>
-#include "user/user.h"
+#include <user.h>
 
 char buf[512];
 

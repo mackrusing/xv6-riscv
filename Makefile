@@ -138,7 +138,7 @@ endif
 
 # separate the flags for kernel and userspace code
 K_CFLAGS = -I. -Iinclude -Ikernel/include $(CFLAGS)
-U_CFLAGS = -I. -Iinclude $(CFLAGS)
+U_CFLAGS = -I. -Iinclude -Iuser/include $(CFLAGS)
 
 # linker flags
 LDFLAGS = -z max-page-size=4096

@@ -6,7 +6,7 @@
 #include "kernel/sleeplock.h"
 #include "kernel/fs.h"
 #include <abi/file.h>
-#include "user/user.h"
+#include <user.h>
 #include <abi/fcntl.h>
 
 char *argv[] = {"sh", 0};

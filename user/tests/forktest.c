@@ -3,7 +3,7 @@
 
 #include <abi/types.h>
 #include <abi/stat.h>
-#include "user/user.h"
+#include <user.h>
 
 #define N 1000
 
