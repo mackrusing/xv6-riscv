@@ -5,7 +5,7 @@
 #include <abi/types.h>
 #include <abi/param.h>
 #include <memlayout.h>
-#include "riscv.h"
+#include <riscv.h>
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
 #include "proc.h"

@@ -1,7 +1,6 @@
 #include <abi/types.h>
 #include <abi/stat.h>
 #include <abi/fcntl.h>
-#include "kernel/riscv.h"
 #include <abi/vm.h>
 #include <user.h>
 

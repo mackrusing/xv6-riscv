@@ -2,7 +2,7 @@
 #include <abi/types.h>
 #include <memlayout.h>
 #include "elf.h"
-#include "riscv.h"
+#include <riscv.h>
 #include "defs.h"
 #include <abi/spinlock.h>
 #include "proc.h"

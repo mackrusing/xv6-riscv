@@ -1,7 +1,7 @@
 #include <abi/types.h>
 #include <abi/param.h>
 #include <memlayout.h>
-#include "riscv.h"
+#include <riscv.h>
 #include <abi/spinlock.h>
 #include "proc.h"
 #include <abi/syscall.h>
