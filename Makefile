@@ -182,6 +182,9 @@ user: $(U_PROG_BINS) $(U_TEST_BINS)
 clean:
 	rm -rf $B .gdbinit
 
+fmt:
+	clang-format -i $(wildcard $K/*.c $K/include/*.h $U/*.c $U/include.h $U/lib/*.c $U/tests/*.c $(TOOL_MKFS_DIR)/mkfs/*.c)
+
 # run the emulator
 qemu: check-qemu-version $(K_BIN) $(FS_IMG)
 	$(QEMU) $(QEMUOPTS)
