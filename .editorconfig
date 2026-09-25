@@ -17,6 +17,9 @@ indent_size = 8
 [*.ld]
 indent_size = 2
 
+[{.clang-format,.clangd}]
+indent_size = 2
+
 [Makefile]
 indent_style = tab
 indent_size = 8
