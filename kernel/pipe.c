@@ -1,12 +1,12 @@
 #include <abi/types.h>
 #include <riscv.h>
-#include "defs.h"
+#include <defs.h>
 #include <abi/param.h>
 #include <abi/spinlock.h>
-#include "proc.h"
+#include <proc.h>
 #include <fs.h>
 #include <abi/sleeplock.h>
-#include "file.h"
+#include <file.h>
 
 #define PIPESIZE 512
 

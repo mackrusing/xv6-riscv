@@ -8,8 +8,8 @@
 #include <riscv.h>
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
-#include "proc.h"
-#include "defs.h"
+#include <proc.h>
+#include <defs.h>
 
 // the UART control registers are memory-mapped
 // at address UART0. this macro returns the

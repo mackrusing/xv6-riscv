@@ -2,7 +2,7 @@
 #include <abi/param.h>
 #include <memlayout.h>
 #include <riscv.h>
-#include "defs.h"
+#include <defs.h>
 
 volatile static int started = 0;
 

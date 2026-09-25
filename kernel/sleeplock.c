@@ -2,11 +2,11 @@
 
 #include <abi/types.h>
 #include <riscv.h>
-#include "defs.h"
+#include <defs.h>
 #include <abi/param.h>
 #include <memlayout.h>
 #include <abi/spinlock.h>
-#include "proc.h"
+#include <proc.h>
 #include <abi/sleeplock.h>
 
 void

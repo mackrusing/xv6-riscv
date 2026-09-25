@@ -9,11 +9,11 @@
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
 #include <fs.h>
-#include "file.h"
+#include <file.h>
 #include <memlayout.h>
 #include <riscv.h>
-#include "defs.h"
-#include "proc.h"
+#include <defs.h>
+#include <proc.h>
 
 volatile int panicking = 0; // printing a panic message
 volatile int panicked = 0;  // spinning forever at end of a panic

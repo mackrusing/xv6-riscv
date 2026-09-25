@@ -18,9 +18,9 @@
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
 #include <riscv.h>
-#include "defs.h"
+#include <defs.h>
 #include <fs.h>
-#include "buf.h"
+#include <buf.h>
 
 struct {
   struct spinlock lock;

@@ -10,7 +10,7 @@
 #include <abi/types.h>
 #include <abi/stat.h>
 #include <user.h>
-#include <kernel/include/fs.h>
+#include <fs.h>
 #include <abi/fcntl.h>
 
 int

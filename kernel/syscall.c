@@ -3,9 +3,9 @@
 #include <memlayout.h>
 #include <riscv.h>
 #include <abi/spinlock.h>
-#include "proc.h"
+#include <proc.h>
 #include <abi/syscall.h>
-#include "defs.h"
+#include <defs.h>
 
 // Fetch the uint64 at addr from the current process.
 int

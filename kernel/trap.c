@@ -3,8 +3,8 @@
 #include <memlayout.h>
 #include <riscv.h>
 #include <abi/spinlock.h>
-#include "proc.h"
-#include "defs.h"
+#include <proc.h>
+#include <defs.h>
 
 struct spinlock tickslock;
 uint ticks;

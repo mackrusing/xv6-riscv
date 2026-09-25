@@ -5,8 +5,8 @@
 #include <memlayout.h>
 #include <abi/spinlock.h>
 #include <riscv.h>
-#include "proc.h"
-#include "defs.h"
+#include <proc.h>
+#include <defs.h>
 
 void
 initlock(struct spinlock *lk, char *name)

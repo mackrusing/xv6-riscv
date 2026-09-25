@@ -11,15 +11,15 @@
 
 #include <abi/types.h>
 #include <riscv.h>
-#include "defs.h"
+#include <defs.h>
 #include <abi/param.h>
 #include <abi/stat.h>
 #include <abi/spinlock.h>
-#include "proc.h"
+#include <proc.h>
 #include <abi/sleeplock.h>
 #include <fs.h>
-#include "buf.h"
-#include "file.h"
+#include <buf.h>
+#include <file.h>
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 // there should be one superblock per disk device, but we run with

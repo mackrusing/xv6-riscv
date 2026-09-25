@@ -3,9 +3,9 @@
 #include <memlayout.h>
 #include <riscv.h>
 #include <abi/spinlock.h>
-#include "proc.h"
-#include "defs.h"
-#include "elf.h"
+#include <proc.h>
+#include <defs.h>
+#include <elf.h>
 
 static int loadseg(pde_t *, uint64, struct inode *, uint, uint);
 

@@ -137,8 +137,8 @@ CFLAGS += -fno-pie -nopie
 endif
 
 # separate the flags for kernel and userspace code
-K_CFLAGS = -I. -Iinclude -Ikernel/include $(CFLAGS)
-U_CFLAGS = -I. -Iinclude -Iuser/include $(CFLAGS)
+K_CFLAGS = -Iinclude -Ikernel/include $(CFLAGS)
+U_CFLAGS = -Iinclude -Iuser/include $(CFLAGS)
 
 # linker flags
 LDFLAGS = -z max-page-size=4096
@@ -223,11 +223,6 @@ $B/$K/%.o: $K/%.S
 	@mkdir -p $(@D)
 	$(CC) $(K_CFLAGS) -c -o $@ $<
 
-# build user program object files from c
-$B/$U/%.o: $U/%.c
-	@mkdir -p $(@D)
-	$(CC) $(U_CFLAGS) -c -o $@ $<
-
 # build user library object files from c
 $B/$U/lib/%.o: $U/lib/%.c
 	@mkdir -p $(@D)
@@ -242,7 +237,12 @@ $B/$U/lib/usys.o: $U/lib/usys.pl
 # build user test object files from c
 $B/$U/tests/%.o: $U/tests/%.c
 	@mkdir -p $(@D)
-	$(CC) $(U_CFLAGS) -I. -c -o $@ $<
+	$(CC) $(U_CFLAGS) -Ikernel/include -c -o $@ $<
+
+# build user program object files from c
+$B/$U/%.o: $U/%.c
+	@mkdir -p $(@D)
+	$(CC) $(U_CFLAGS) -c -o $@ $<
 
 # build user executables using linker script (and provide disassembly and
 # symbols files alongside them)

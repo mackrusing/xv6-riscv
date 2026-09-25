@@ -2,11 +2,11 @@
 #include <abi/types.h>
 #include <abi/stat.h>
 #include <user.h>
-#include <kernel/include/fs.h>
+#include <fs.h>
 #include <abi/fcntl.h>
 #include <abi/syscall.h>
-#include "kernel/include/memlayout.h"
-#include <kernel/include/riscv.h>
+#include <memlayout.h>
+#include <riscv.h>
 
 //
 // Tests xv6 system calls.  usertests without arguments runs them all
