@@ -7,8 +7,8 @@
 #include <kernel/defs.h>
 #include <abi/param.h>
 #include <kernel/fs.h>
-#include <abi/spinlock.h>
-#include <abi/sleeplock.h>
+#include <kernel/spinlock.h>
+#include <kernel/sleeplock.h>
 #include <kernel/file.h>
 #include <abi/stat.h>
 #include <kernel/proc.h>

@@ -2,8 +2,6 @@
 
 #include <abi/types.h>
 #include <abi/stat.h>
-#include <abi/spinlock.h>
-#include <abi/sleeplock.h>
 #include <abi/fs.h>
 #include <abi/file.h>
 #include <user/user.h>

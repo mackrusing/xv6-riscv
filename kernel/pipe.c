@@ -2,10 +2,10 @@
 #include <kernel/riscv.h>
 #include <kernel/defs.h>
 #include <abi/param.h>
-#include <abi/spinlock.h>
+#include <kernel/spinlock.h>
 #include <kernel/proc.h>
 #include <kernel/fs.h>
-#include <abi/sleeplock.h>
+#include <kernel/sleeplock.h>
 #include <kernel/file.h>
 
 #define PIPESIZE 512

@@ -4,7 +4,7 @@
 #include <kernel/elf.h>
 #include <kernel/riscv.h>
 #include <kernel/defs.h>
-#include <abi/spinlock.h>
+#include <kernel/spinlock.h>
 #include <kernel/proc.h>
 #include <kernel/fs.h>
 

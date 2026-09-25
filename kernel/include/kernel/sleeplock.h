@@ -1,5 +1,5 @@
-#ifndef ABI_SLEEPLOCK_H
-#define ABI_SLEEPLOCK_H
+#ifndef KERNEL_SLEEPLOCK_H
+#define KERNEL_SLEEPLOCK_H
 
 // Long-term locks for processes
 struct sleeplock {
@@ -11,4 +11,4 @@ struct sleeplock {
   int pid;    // Process holding lock
 };
 
-#endif // ABI_SLEEPLOCK_H
+#endif // KERNEL_SLEEPLOCK_H

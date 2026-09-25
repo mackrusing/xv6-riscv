@@ -5,9 +5,9 @@
 #include <kernel/defs.h>
 #include <abi/param.h>
 #include <kernel/memlayout.h>
-#include <abi/spinlock.h>
+#include <kernel/spinlock.h>
 #include <kernel/proc.h>
-#include <abi/sleeplock.h>
+#include <kernel/sleeplock.h>
 
 void
 initsleeplock(struct sleeplock *lk, char *name)

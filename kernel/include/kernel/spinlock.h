@@ -1,5 +1,5 @@
-#ifndef ABI_SPINLOCK_H
-#define ABI_SPINLOCK_H
+#ifndef KERNEL_SPINLOCK_H
+#define KERNEL_SPINLOCK_H
 
 // Mutual exclusion lock.
 struct spinlock {
@@ -10,4 +10,4 @@ struct spinlock {
   struct cpu *cpu; // The cpu holding the lock.
 };
 
-#endif // ABI_SPINLOCK_H
+#endif // KERNEL_SPINLOCK_H

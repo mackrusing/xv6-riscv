@@ -3,7 +3,7 @@
 #include <abi/types.h>
 #include <abi/param.h>
 #include <kernel/memlayout.h>
-#include <abi/spinlock.h>
+#include <kernel/spinlock.h>
 #include <kernel/riscv.h>
 #include <kernel/proc.h>
 #include <kernel/defs.h>
