@@ -1,2 +1,9 @@
+# build artifacts
 /build/
+
+# gdb
 .gdbinit
+
+# tooling
+/.cache/
+compile_commands.json
