@@ -1,6 +1,10 @@
 #ifndef KERNEL_BUF_H
 #define KERNEL_BUF_H
 
+#include <abi/types.h>
+#include <kernel/fs.h>
+#include <kernel/sleeplock.h>
+
 struct buf {
   int valid; // has data been read from disk?
   int disk;  // does disk "own" buf?

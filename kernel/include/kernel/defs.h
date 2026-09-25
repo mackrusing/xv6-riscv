@@ -1,6 +1,9 @@
 #ifndef KERNEL_DEFS_H
 #define KERNEL_DEFS_H
 
+#include <abi/types.h>
+#include <kernel/riscv.h>
+
 // clang-format off
 struct buf;
 struct context;

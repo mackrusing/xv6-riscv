@@ -1,6 +1,8 @@
 #ifndef ABI_STAT_H
 #define ABI_STAT_H
 
+#include <abi/types.h>
+
 #define T_DIR    1 // Directory
 #define T_FILE   2 // File
 #define T_DEVICE 3 // Device

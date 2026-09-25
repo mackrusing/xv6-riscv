@@ -1,9 +1,10 @@
 #ifndef USER_USER_H
 #define USER_USER_H
 
-#define SBRK_ERROR ((char *)-1)
+#include <abi/stat.h>
+#include <abi/types.h>
 
-struct stat;
+#define SBRK_ERROR ((char *)-1)
 
 // system calls
 int fork(void);

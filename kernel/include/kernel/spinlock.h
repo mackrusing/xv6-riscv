@@ -1,6 +1,8 @@
 #ifndef KERNEL_SPINLOCK_H
 #define KERNEL_SPINLOCK_H
 
+#include <abi/types.h>
+
 // Mutual exclusion lock.
 struct spinlock {
   uint locked; // Is the lock held?

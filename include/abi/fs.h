@@ -1,6 +1,8 @@
 #ifndef ABI_FS_H
 #define ABI_FS_H
 
+#include <abi/types.h>
+
 // Directory is a file containing a sequence of dirent structures.
 #define DIRSIZ 14
 

@@ -1,6 +1,11 @@
 #ifndef KERNEL_PROC_H
 #define KERNEL_PROC_H
 
+#include <abi/param.h>
+#include <abi/types.h>
+#include <kernel/riscv.h>
+#include <kernel/spinlock.h>
+
 // Saved registers for kernel context switches.
 struct context {
   uint64 ra;

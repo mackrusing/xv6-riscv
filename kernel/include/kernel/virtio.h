@@ -10,6 +10,8 @@
 #ifndef KERNEL_VIRTIO_H
 #define KERNEL_VIRTIO_H
 
+#include <abi/types.h>
+
 // virtio mmio control registers, mapped starting at 0x10001000.
 // from qemu virtio_mmio.h
 // clang-format off

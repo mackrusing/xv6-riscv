@@ -166,7 +166,7 @@ QEMUOPTS += -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 QEMU_VERSION := $(shell $(QEMU) --version | head -n 1 | sed -E 's/^QEMU emulator version ([0-9]+\.[0-9]+)\..*/\1/')
 
 # non-file related rules
-.PHONY: all kernel user clean fmt qemu qemu-gdb check-qemu-version print-gdbport
+.PHONY: all kernel user mkfs clean fmt qemu qemu-gdb check-qemu-version print-gdbport
 
 # prevent deletion of intermediate files
 .PRECIOUS: $B/$K/%.o $B/$U/%.o $B/$U/lib/%.o $B/$U/tests/%.o
@@ -177,6 +177,7 @@ all: kernel
 # helper rules
 kernel: $(K_BIN)
 user: $(U_PROG_BINS) $(U_TEST_BINS)
+mkfs: $(TOOL_MKFS_BIN)
 
 # remove build artifacts
 clean:

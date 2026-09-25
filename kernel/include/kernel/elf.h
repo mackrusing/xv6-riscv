@@ -3,6 +3,8 @@
 #ifndef KERNEL_ELF_H
 #define KERNEL_ELF_H
 
+#include <abi/types.h>
+
 #define ELF_MAGIC 0x464C457FU // "\x7FELF" in little endian
 
 // File header

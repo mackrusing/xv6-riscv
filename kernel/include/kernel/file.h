@@ -1,7 +1,10 @@
 #ifndef KERNEL_FILE_H
 #define KERNEL_FILE_H
 
+#include <abi/types.h>
 #include <abi/file.h>
+#include <kernel/fs.h>
+#include <kernel/sleeplock.h>
 
 struct file {
   enum { FD_NONE, FD_PIPE, FD_INODE, FD_DEVICE } type;
