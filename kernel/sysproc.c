@@ -1,10 +1,10 @@
 #include <abi/types.h>
-#include <riscv.h>
-#include <defs.h>
+#include <kernel/riscv.h>
+#include <kernel/defs.h>
 #include <abi/param.h>
-#include <memlayout.h>
+#include <kernel/memlayout.h>
 #include <abi/spinlock.h>
-#include <proc.h>
+#include <kernel/proc.h>
 #include <abi/vm.h>
 
 uint64

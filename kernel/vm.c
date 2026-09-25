@@ -1,12 +1,12 @@
 #include <abi/param.h>
 #include <abi/types.h>
-#include <memlayout.h>
-#include <elf.h>
-#include <riscv.h>
-#include <defs.h>
+#include <kernel/memlayout.h>
+#include <kernel/elf.h>
+#include <kernel/riscv.h>
+#include <kernel/defs.h>
 #include <abi/spinlock.h>
-#include <proc.h>
-#include <fs.h>
+#include <kernel/proc.h>
+#include <kernel/fs.h>
 
 /*
  * the kernel's page table.

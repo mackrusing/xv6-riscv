@@ -3,15 +3,15 @@
 //
 
 #include <abi/types.h>
-#include <riscv.h>
-#include <defs.h>
+#include <kernel/riscv.h>
+#include <kernel/defs.h>
 #include <abi/param.h>
-#include <fs.h>
+#include <kernel/fs.h>
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
-#include <file.h>
+#include <kernel/file.h>
 #include <abi/stat.h>
-#include <proc.h>
+#include <kernel/proc.h>
 
 struct devsw devsw[NDEV];
 struct {

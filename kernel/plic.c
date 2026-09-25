@@ -1,8 +1,8 @@
 #include <abi/types.h>
 #include <abi/param.h>
-#include <memlayout.h>
-#include <riscv.h>
-#include <defs.h>
+#include <kernel/memlayout.h>
+#include <kernel/riscv.h>
+#include <kernel/defs.h>
 
 //
 // the riscv Platform Level Interrupt Controller (PLIC).

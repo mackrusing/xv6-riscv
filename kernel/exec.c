@@ -1,11 +1,11 @@
 #include <abi/types.h>
 #include <abi/param.h>
-#include <memlayout.h>
-#include <riscv.h>
+#include <kernel/memlayout.h>
+#include <kernel/riscv.h>
 #include <abi/spinlock.h>
-#include <proc.h>
-#include <defs.h>
-#include <elf.h>
+#include <kernel/proc.h>
+#include <kernel/defs.h>
+#include <kernel/elf.h>
 
 static int loadseg(pde_t *, uint64, struct inode *, uint, uint);
 

@@ -6,11 +6,11 @@
 #include <abi/types.h>
 #include <abi/stat.h>
 #include <user.h>
-#include <fs.h>
+#include <kernel/fs.h>
 #include <abi/fcntl.h>
 #include <abi/syscall.h>
-#include <memlayout.h>
-#include <riscv.h>
+#include <kernel/memlayout.h>
+#include <kernel/riscv.h>
 
 // from FreeBSD.
 int

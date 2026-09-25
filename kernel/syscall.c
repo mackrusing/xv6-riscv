@@ -1,11 +1,11 @@
 #include <abi/types.h>
 #include <abi/param.h>
-#include <memlayout.h>
-#include <riscv.h>
+#include <kernel/memlayout.h>
+#include <kernel/riscv.h>
 #include <abi/spinlock.h>
-#include <proc.h>
+#include <kernel/proc.h>
 #include <abi/syscall.h>
-#include <defs.h>
+#include <kernel/defs.h>
 
 // Fetch the uint64 at addr from the current process.
 int

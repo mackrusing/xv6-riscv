@@ -6,15 +6,15 @@
 //
 
 #include <abi/types.h>
-#include <riscv.h>
-#include <defs.h>
+#include <kernel/riscv.h>
+#include <kernel/defs.h>
 #include <abi/param.h>
-#include <memlayout.h>
+#include <kernel/memlayout.h>
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
-#include <fs.h>
-#include <buf.h>
-#include <virtio.h>
+#include <kernel/fs.h>
+#include <kernel/buf.h>
+#include <kernel/virtio.h>
 
 // the address of virtio mmio register r.
 #define R(r) ((volatile uint32 *)(VIRTIO0 + (r)))

@@ -15,12 +15,12 @@
 #include <abi/param.h>
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
-#include <fs.h>
-#include <file.h>
-#include <memlayout.h>
-#include <riscv.h>
-#include <defs.h>
-#include <proc.h>
+#include <kernel/fs.h>
+#include <kernel/file.h>
+#include <kernel/memlayout.h>
+#include <kernel/riscv.h>
+#include <kernel/defs.h>
+#include <kernel/proc.h>
 
 #define BACKSPACE 0x100       // erase the last output character
 #define C(x)      ((x) - '@') // Control-x

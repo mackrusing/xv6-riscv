@@ -17,10 +17,10 @@
 #include <abi/param.h>
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
-#include <riscv.h>
-#include <defs.h>
-#include <fs.h>
-#include <buf.h>
+#include <kernel/riscv.h>
+#include <kernel/defs.h>
+#include <kernel/fs.h>
+#include <kernel/buf.h>
 
 struct {
   struct spinlock lock;

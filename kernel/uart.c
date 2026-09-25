@@ -4,12 +4,12 @@
 
 #include <abi/types.h>
 #include <abi/param.h>
-#include <memlayout.h>
-#include <riscv.h>
+#include <kernel/memlayout.h>
+#include <kernel/riscv.h>
 #include <abi/spinlock.h>
 #include <abi/sleeplock.h>
-#include <proc.h>
-#include <defs.h>
+#include <kernel/proc.h>
+#include <kernel/defs.h>
 
 // the UART control registers are memory-mapped
 // at address UART0. this macro returns the
