@@ -1,7 +1,7 @@
 // Shell.
 
 #include <abi/types.h>
-#include <user.h>
+#include <user/user.h>
 #include <abi/fcntl.h>
 
 // Parsed command representation

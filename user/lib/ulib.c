@@ -2,7 +2,7 @@
 #include <abi/stat.h>
 #include <abi/fcntl.h>
 #include <abi/vm.h>
-#include <user.h>
+#include <user/user.h>
 
 //
 // wrapper so that it's OK if main() does not call exit().

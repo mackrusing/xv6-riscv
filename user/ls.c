@@ -1,6 +1,6 @@
 #include <abi/types.h>
 #include <abi/stat.h>
-#include <user.h>
+#include <user/user.h>
 #include <abi/fs.h>
 #include <abi/fcntl.h>
 
