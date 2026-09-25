@@ -1,9 +1,9 @@
-#include <abi/types.h>
 #include <abi/param.h>
-#include <kernel/riscv.h>
-#include <kernel/proc.h>
+#include <abi/types.h>
 #include <kernel/defs.h>
 #include <kernel/elf.h>
+#include <kernel/proc.h>
+#include <kernel/riscv.h>
 
 static int loadseg(pde_t *, uint64, struct inode *, uint, uint);
 

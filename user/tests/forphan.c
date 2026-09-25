@@ -1,5 +1,5 @@
-#include <abi/stat.h>
 #include <abi/fcntl.h>
+#include <abi/stat.h>
 #include <user/user.h>
 
 // Create an orphaned file and check if test-xv6.py recovers it.

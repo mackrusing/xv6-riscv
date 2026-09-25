@@ -1,8 +1,8 @@
 #include <abi/types.h>
 #include <kernel/defs.h>
-#include <kernel/spinlock.h>
-#include <kernel/proc.h>
 #include <kernel/file.h>
+#include <kernel/proc.h>
+#include <kernel/spinlock.h>
 
 #define PIPESIZE 512
 

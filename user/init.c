@@ -1,8 +1,8 @@
 // init: The initial user-level program
 
+#include <abi/fcntl.h>
 #include <abi/file.h>
 #include <user/user.h>
-#include <abi/fcntl.h>
 
 char *argv[] = {"sh", 0};
 

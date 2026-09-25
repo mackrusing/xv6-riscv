@@ -13,8 +13,8 @@
 
 #include <abi/file.h>
 #include <abi/types.h>
-#include <kernel/file.h>
 #include <kernel/defs.h>
+#include <kernel/file.h>
 
 #define BACKSPACE 0x100       // erase the last output character
 #define C(x)      ((x) - '@') // Control-x

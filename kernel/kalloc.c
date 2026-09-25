@@ -3,10 +3,10 @@
 // and pipe buffers. Allocates whole 4096-byte pages.
 
 #include <abi/types.h>
-#include <kernel/memlayout.h>
-#include <kernel/spinlock.h>
-#include <kernel/riscv.h>
 #include <kernel/defs.h>
+#include <kernel/memlayout.h>
+#include <kernel/riscv.h>
+#include <kernel/spinlock.h>
 
 void freerange(void *pa_start, void *pa_end);
 

@@ -10,14 +10,14 @@
 // are in sysfile.c.
 
 #include <abi/fs.h>
-#include <abi/types.h>
-#include <kernel/defs.h>
 #include <abi/param.h>
 #include <abi/stat.h>
-#include <kernel/proc.h>
-#include <kernel/fs.h>
+#include <abi/types.h>
 #include <kernel/buf.h>
+#include <kernel/defs.h>
 #include <kernel/file.h>
+#include <kernel/fs.h>
+#include <kernel/proc.h>
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 // there should be one superblock per disk device, but we run with

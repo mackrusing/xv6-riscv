@@ -2,10 +2,10 @@
 // run random system calls in parallel forever.
 //
 
-#include <abi/types.h>
-#include <abi/stat.h>
-#include <user/user.h>
 #include <abi/fcntl.h>
+#include <abi/stat.h>
+#include <abi/types.h>
+#include <user/user.h>
 
 // from FreeBSD.
 int

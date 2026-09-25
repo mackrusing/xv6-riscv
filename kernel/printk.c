@@ -5,8 +5,8 @@
 #include <stdarg.h>
 
 #include <abi/types.h>
-#include <kernel/spinlock.h>
 #include <kernel/defs.h>
+#include <kernel/spinlock.h>
 
 volatile int panicking = 0; // printing a panic message
 volatile int panicked = 0;  // spinning forever at end of a panic

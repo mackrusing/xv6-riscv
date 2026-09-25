@@ -1,6 +1,7 @@
-SortIncludes: Never
+---
+SortIncludes:
+  Enabled: true
 ReflowComments: Never
-
 BreakAfterReturnType: TopLevelDefinitions
 BreakBeforeBraces: Custom
 BraceWrapping:
@@ -8,3 +9,4 @@ BraceWrapping:
 AlignConsecutiveMacros: Consecutive
 ContinuationIndentWidth: 2
 BreakStringLiterals: false
+...

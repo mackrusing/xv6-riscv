@@ -4,16 +4,16 @@
 // user code, and calls into file.c and fs.c.
 //
 
+#include <abi/fcntl.h>
 #include <abi/fs.h>
-#include <kernel/fs.h>
-#include <abi/types.h>
-#include <kernel/riscv.h>
-#include <kernel/defs.h>
 #include <abi/param.h>
 #include <abi/stat.h>
-#include <kernel/proc.h>
+#include <abi/types.h>
+#include <kernel/defs.h>
 #include <kernel/file.h>
-#include <abi/fcntl.h>
+#include <kernel/fs.h>
+#include <kernel/proc.h>
+#include <kernel/riscv.h>
 
 // Fetch the nth word-sized system call argument as a file descriptor
 // and return both the descriptor and the corresponding struct file.

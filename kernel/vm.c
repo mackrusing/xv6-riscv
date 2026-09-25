@@ -1,7 +1,7 @@
 #include <abi/types.h>
+#include <kernel/defs.h>
 #include <kernel/memlayout.h>
 #include <kernel/riscv.h>
-#include <kernel/defs.h>
 
 /*
  * the kernel's page table.

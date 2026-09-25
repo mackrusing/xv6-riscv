@@ -13,10 +13,10 @@
 // * Only one process at a time can use a buffer,
 //     so do not keep them longer than necessary.
 
-#include <abi/types.h>
 #include <abi/param.h>
-#include <kernel/defs.h>
+#include <abi/types.h>
 #include <kernel/buf.h>
+#include <kernel/defs.h>
 
 struct {
   struct spinlock lock;

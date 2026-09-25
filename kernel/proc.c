@@ -1,10 +1,10 @@
-#include <abi/types.h>
 #include <abi/param.h>
+#include <abi/types.h>
+#include <kernel/defs.h>
 #include <kernel/memlayout.h>
+#include <kernel/proc.h>
 #include <kernel/riscv.h>
 #include <kernel/spinlock.h>
-#include <kernel/proc.h>
-#include <kernel/defs.h>
 
 struct cpu cpus[NCPU];
 

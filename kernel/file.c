@@ -2,12 +2,12 @@
 // Support functions for system calls that involve file descriptors.
 //
 
+#include <abi/param.h>
+#include <abi/stat.h>
 #include <abi/types.h>
 #include <kernel/defs.h>
-#include <abi/param.h>
-#include <kernel/fs.h>
 #include <kernel/file.h>
-#include <abi/stat.h>
+#include <kernel/fs.h>
 #include <kernel/proc.h>
 
 struct devsw devsw[NDEV];

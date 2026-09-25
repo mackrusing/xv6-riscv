@@ -1,6 +1,6 @@
 #include <abi/types.h>
-#include <kernel/memlayout.h>
 #include <kernel/defs.h>
+#include <kernel/memlayout.h>
 
 //
 // the riscv Platform Level Interrupt Controller (PLIC).

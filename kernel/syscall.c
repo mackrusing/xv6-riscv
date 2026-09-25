@@ -1,7 +1,7 @@
-#include <abi/types.h>
-#include <kernel/proc.h>
 #include <abi/syscall.h>
+#include <abi/types.h>
 #include <kernel/defs.h>
+#include <kernel/proc.h>
 
 // Fetch the uint64 at addr from the current process.
 int

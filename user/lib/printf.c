@@ -1,7 +1,7 @@
+#include <stdarg.h>
+
 #include <abi/types.h>
 #include <user/user.h>
-
-#include <stdarg.h>
 
 static char digits[] = "0123456789ABCDEF";
 

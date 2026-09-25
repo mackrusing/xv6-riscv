@@ -184,7 +184,7 @@ clean:
 	rm -rf $B .gdbinit
 
 fmt:
-	clang-format -i $(wildcard $K/*.c $K/include/*.h $U/*.c $U/include.h $U/lib/*.c $U/tests/*.c $(TOOL_MKFS_DIR)/mkfs/*.c)
+	clang-format -i $(wildcard include/abi/*.h $K/include/kernel/*.h $K/*.c tools/mkfs/*.c $U/include/user/*.h $U/lib/*.c $U/tests/*.c $U/*.c)
 
 # run the emulator
 qemu: check-qemu-version $(K_BIN) $(FS_IMG)

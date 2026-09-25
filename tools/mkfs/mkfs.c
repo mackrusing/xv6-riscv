@@ -1,16 +1,16 @@
+#include <assert.h>
+#include <fcntl.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
-#include <assert.h>
+#include <unistd.h>
 
 #define stat xv6_stat // avoid clash with host struct stat
+#include "abi/fs.h"
+#include "abi/param.h"
+#include "abi/stat.h"
 #include "abi/types.h"
 #include "kernel/fs.h"
-#include "abi/fs.h"
-#include "abi/stat.h"
-#include "abi/param.h"
 
 #ifndef static_assert
 #define static_assert(a, b)                                                    \

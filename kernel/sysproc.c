@@ -1,8 +1,8 @@
 #include <abi/types.h>
+#include <abi/vm.h>
 #include <kernel/defs.h>
 #include <kernel/memlayout.h>
 #include <kernel/proc.h>
-#include <abi/vm.h>
 
 uint64
 sys_exit(void)

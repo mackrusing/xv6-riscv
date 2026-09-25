@@ -6,12 +6,12 @@
 //
 
 #include <abi/types.h>
-#include <kernel/riscv.h>
-#include <kernel/defs.h>
-#include <kernel/memlayout.h>
-#include <kernel/spinlock.h>
-#include <kernel/fs.h>
 #include <kernel/buf.h>
+#include <kernel/defs.h>
+#include <kernel/fs.h>
+#include <kernel/memlayout.h>
+#include <kernel/riscv.h>
+#include <kernel/spinlock.h>
 #include <kernel/virtio.h>
 
 // the address of virtio mmio register r.
