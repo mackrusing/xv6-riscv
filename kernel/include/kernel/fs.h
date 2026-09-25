@@ -4,7 +4,7 @@
 #ifndef KERNEL_FS_H
 #define KERNEL_FS_H
 
-#include <abi/fs.h>
+#include <abi/types.h>
 
 #define ROOTINO 1    // root i-number
 #define BSIZE   1024 // block size

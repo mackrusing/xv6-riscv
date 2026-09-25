@@ -1,7 +1,5 @@
 // Simple grep.  Only supports ^ . * $ operators.
 
-#include <abi/types.h>
-#include <abi/stat.h>
 #include <abi/fcntl.h>
 #include <user/user.h>
 

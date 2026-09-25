@@ -1,11 +1,6 @@
 // Sleeping locks
 
-#include <abi/types.h>
-#include <kernel/riscv.h>
 #include <kernel/defs.h>
-#include <abi/param.h>
-#include <kernel/memlayout.h>
-#include <kernel/spinlock.h>
 #include <kernel/proc.h>
 #include <kernel/sleeplock.h>
 

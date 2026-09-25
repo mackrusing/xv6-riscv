@@ -1,10 +1,10 @@
+#include <abi/fs.h>
 #include <abi/param.h>
 #include <abi/types.h>
 #include <abi/stat.h>
 #include <user/user.h>
 #include <kernel/fs.h>
 #include <abi/fcntl.h>
-#include <abi/syscall.h>
 #include <kernel/memlayout.h>
 #include <kernel/riscv.h>
 

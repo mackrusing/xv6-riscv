@@ -4,15 +4,14 @@
 // user code, and calls into file.c and fs.c.
 //
 
+#include <abi/fs.h>
+#include <kernel/fs.h>
 #include <abi/types.h>
 #include <kernel/riscv.h>
 #include <kernel/defs.h>
 #include <abi/param.h>
 #include <abi/stat.h>
-#include <kernel/spinlock.h>
 #include <kernel/proc.h>
-#include <kernel/fs.h>
-#include <kernel/sleeplock.h>
 #include <kernel/file.h>
 #include <abi/fcntl.h>
 

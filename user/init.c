@@ -1,8 +1,5 @@
 // init: The initial user-level program
 
-#include <abi/types.h>
-#include <abi/stat.h>
-#include <abi/fs.h>
 #include <abi/file.h>
 #include <user/user.h>
 #include <abi/fcntl.h>

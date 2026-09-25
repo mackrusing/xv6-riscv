@@ -2,7 +2,6 @@
 #define KERNEL_FILE_H
 
 #include <abi/types.h>
-#include <abi/file.h>
 #include <kernel/fs.h>
 #include <kernel/sleeplock.h>
 

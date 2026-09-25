@@ -1,8 +1,6 @@
 // Create a zombie process that
 // must be reparented at exit.
 
-#include <abi/types.h>
-#include <abi/stat.h>
 #include <user/user.h>
 
 int

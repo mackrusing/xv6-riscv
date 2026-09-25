@@ -1,7 +1,3 @@
-#include <abi/types.h>
-#include <abi/param.h>
-#include <kernel/memlayout.h>
-#include <kernel/riscv.h>
 #include <kernel/defs.h>
 
 volatile static int started = 0;

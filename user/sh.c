@@ -1,6 +1,5 @@
 // Shell.
 
-#include <abi/types.h>
 #include <user/user.h>
 #include <abi/fcntl.h>
 

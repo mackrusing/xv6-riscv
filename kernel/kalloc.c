@@ -3,7 +3,6 @@
 // and pipe buffers. Allocates whole 4096-byte pages.
 
 #include <abi/types.h>
-#include <abi/param.h>
 #include <kernel/memlayout.h>
 #include <kernel/spinlock.h>
 #include <kernel/riscv.h>

@@ -8,10 +8,8 @@
 #include <abi/types.h>
 #include <kernel/riscv.h>
 #include <kernel/defs.h>
-#include <abi/param.h>
 #include <kernel/memlayout.h>
 #include <kernel/spinlock.h>
-#include <kernel/sleeplock.h>
 #include <kernel/fs.h>
 #include <kernel/buf.h>
 #include <kernel/virtio.h>

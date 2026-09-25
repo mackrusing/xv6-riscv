@@ -1,8 +1,6 @@
 // Test that fork fails gracefully.
 // Tiny executable so that the limit can be filling the proc table.
 
-#include <abi/types.h>
-#include <abi/stat.h>
 #include <user/user.h>
 
 #define N 1000
