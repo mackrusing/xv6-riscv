@@ -32,8 +32,8 @@ U_HEADERS := $(sort $(wildcard $S/$U/include/$U/*.h))
 
 # user library header files, source files, module names, object files
 U_LIB_SRC_C := $(sort $(wildcard $S/$U/$(U_LIB)/*.c))
-U_LIB_SRC_USYS := $S/$U/$(U_LIB)/usys.pl
-U_LIB_MODS := $(sort $(basename $(notdir $(U_LIB_SRC_C) $(U_LIB_SRC_USYS))))
+U_LIB_SRC_S := $(sort $(wildcard $S/$U/$(U_LIB)/*.S))
+U_LIB_MODS := $(sort $(basename $(notdir $(U_LIB_SRC_C) $(U_LIB_SRC_S))))
 U_LIB_OBJS := $(addprefix $B/$U/$(U_LIB)/,$(addsuffix .o,$(U_LIB_MODS)))
 
 # user test source files, module names, object files, binaries
@@ -158,11 +158,10 @@ $B/$U/$(U_LIB)/%.o: $S/$U/$(U_LIB)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(U_CFLAGS) -c -o $@ $<
 
-# build usys object from perl -> assembly -> object
-$B/$U/$(U_LIB)/usys.o: $S/$U/$(U_LIB)/usys.pl
+# build user lib objects from assembly
+$B/$U/$(U_LIB)/%.o: $S/$U/$(U_LIB)/%.S
 	@mkdir -p $(@D)
-	perl $< > $(basename $@).S
-	$(CC) $(U_CFLAGS) -c -o $@ $(basename $@).S
+	$(CC) $(U_CFLAGS) -c -o $@ $<
 
 # build user test objects from c
 $B/$U/$(U_TESTS)/%.o: $S/$U/$(U_TESTS)/%.c

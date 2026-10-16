@@ -14,6 +14,7 @@
 #include <kernel/fs.h>
 #include <kernel/proc.h>
 #include <kernel/riscv.h>
+#include <kernel/syscall.h>
 
 // Fetch the nth word-sized system call argument as a file descriptor
 // and return both the descriptor and the corresponding struct file.

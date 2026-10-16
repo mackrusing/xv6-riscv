@@ -1,0 +1,37 @@
+/// @file
+/// @brief System call definitions.
+///
+/// This file holds related information about each system call.
+///
+/// ```
+/// SYSCALL(num, name, stub, ret, params)
+/// ```
+///
+/// - `num`: system call number
+/// - `name`: kernel handler is sys_<name>, number is SYS_<name>
+/// - `stub`: symbol of the user-space stub
+/// - `ret`: return type of the user stub
+/// - `params`: parenthesized user parameter list
+
+SYSCALL(1, fork, fork, int, (void))
+SYSCALL(2, exit, exit, int, (int))
+SYSCALL(3, wait, wait, int, (int *))
+SYSCALL(4, pipe, pipe, int, (int *))
+SYSCALL(5, read, read, int, (int, void *, int))
+SYSCALL(6, kill, kill, int, (int))
+SYSCALL(7, exec, exec, int, (const char *, char **))
+SYSCALL(8, fstat, fstat, int, (int fd, struct stat *))
+SYSCALL(9, chdir, chdir, int, (const char *))
+SYSCALL(10, dup, dup, int, (int))
+SYSCALL(11, getpid, getpid, int, (void))
+SYSCALL(12, sbrk, sys_sbrk, char *, (int, int))
+SYSCALL(13, pause, pause, int, (int))
+SYSCALL(14, uptime, uptime, int, (void))
+SYSCALL(15, open, open, int, (const char *, int))
+SYSCALL(16, write, write, int, (int, const void *, int))
+SYSCALL(17, mknod, mknod, int, (const char *, short, short))
+SYSCALL(18, unlink, unlink, int, (const char *))
+SYSCALL(19, link, link, int, (const char *, const char *))
+SYSCALL(20, mkdir, mkdir, int, (const char *))
+SYSCALL(21, close, close, int, (int))
+SYSCALL(22, sync, sync, int, (void))
