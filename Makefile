@@ -127,7 +127,7 @@ docs:
 	doxygen Doxyfile
 
 fmt:
-	clang-format -i $(ABI_HEADERS) $(K_HEADERS) $(K_SRC_C) $(U_HEADERS) $(U_LIB_SRC_C) $(U_TEST_SRC_C) $(U_PROG_SRC_C) $(T_MKFS_SRC_C)
+	clang-format -i $S/include/abi/syscalls.def $(ABI_HEADERS) $(K_HEADERS) $(K_SRC_C) $(U_HEADERS) $(U_LIB_SRC_C) $(U_TEST_SRC_C) $(U_PROG_SRC_C) $(T_MKFS_SRC_C)
 
 qemu: $(K_BIN) $(FS_IMG)
 	$(QEMU) $(QEMUOPTS)
