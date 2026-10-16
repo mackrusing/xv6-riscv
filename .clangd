@@ -7,8 +7,27 @@ Diagnostics:
 If:
   PathExclude: tools/.*
 CompileFlags:
-  Add: [--target=riscv64-unknown-elf]
-  Remove: [-fno-pie, -no-pie, -nopie]
+  Add:
+    - --target=riscv64-unknown-elf
+  Remove:
+    - -fno-pie
+    - -no-pie
+    - -nopie
 Diagnostics:
   Includes:
-    IgnoreHeader: ["string\\.h", "strings\\.h", "math\\.h", "stdlib\\.h", "stdio\\.h"]
+    IgnoreHeader:
+      - string\.h
+      - strings\.h
+      - math\.h
+      - stdlib\.h
+      - stdio\.h
+---
+If:
+  PathMatch: .*\.def
+Diagnostics:
+  MissingIncludes: None
+CompileFlags:
+  Add:
+    - -xc
+    - -includeabi/stat.h
+    - -DSYSCALL(num,name,stub,ret,params)=ret stub params;
