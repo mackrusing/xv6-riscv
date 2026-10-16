@@ -1,20 +1,43 @@
-/// @file
-/// @brief System call definitions.
+/// @file abi/syscalls.def
+/// @brief Definitions for each system call.
 ///
-/// This file holds related information about each system call.
+/// This file holds information about each system call in a format that can be
+/// used by X macros. From this info, system call numbers, kernel/user function
+/// declarations, and user-space assembly can be generated uniformly from a
+/// single source of truth.
+///
+/// Below is the format of the information stored on each system call:
 ///
 /// ```
 /// SYSCALL(num, name, stub, ret, params)
 /// ```
 ///
 /// - `num`: system call number
-/// - `name`: kernel handler is sys_<name>, number is SYS_<name>
-/// - `stub`: symbol of the user-space stub
+/// - `name`: kernel handler is sys_<`name`>, number is SYS_<`name`>
+/// - `stub`: symbol of the user-space stub (usually just `name`)
 /// - `ret`: return type of the user stub
 /// - `params`: parenthesized user parameter list
+///
+/// This file also holds documentation on each system call.
 
+#if defined(__DOXYGEN__) && !defined(SYSCALL)
+#define SYSCALL(num, name, stub, ret, params) ret stub params;
+#endif
+
+/// @brief Create a new process, copying the parent.
+///
+/// @return When successful, returns 0 to the child process and returns the
+/// process ID of the child process to the parent process. Otherwise, a value of
+/// -1 is returned to the parent process and no child process is created.
 SYSCALL(1, fork, fork, int, (void))
-SYSCALL(2, exit, exit, int, (int))
+
+/// @brief Terminate the current process.
+///
+/// @param[in] status The number to set as the exit status.
+///
+/// @return This function never returns.
+SYSCALL(2, exit, exit, int, (int status))
+
 SYSCALL(3, wait, wait, int, (int *))
 SYSCALL(4, pipe, pipe, int, (int *))
 SYSCALL(5, read, read, int, (int, void *, int))

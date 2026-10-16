@@ -1,4 +1,3 @@
-#include <abi/syscall.h>
 #include <abi/types.h>
 #include <kernel/defs.h>
 #include <kernel/proc.h>

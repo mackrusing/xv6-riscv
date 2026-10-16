@@ -14,7 +14,7 @@ STRIP_FROM_PATH = .
 STRIP_FROM_INC_PATH = src/include src/kernel/include src/user/include
 
 # document everything, even before it has doc comments
-EXTRACT_ALL = YES
+EXTRACT_ALL = NO
 EXTRACT_STATIC = YES
 SOURCE_BROWSER = YES
 WARN_IF_UNDOCUMENTED = NO
@@ -26,6 +26,7 @@ SEARCH_INCLUDES = YES
 INCLUDE_PATH = src/include src/kernel/include src/user/include
 
 # output: HTML only, themed
+ENUM_VALUES_PER_LINE = 1
 GENERATE_LATEX = NO
 GENERATE_TREEVIEW = YES
 DISABLE_INDEX = NO
@@ -40,4 +41,6 @@ FILE_PATTERNS += *.def
 EXTENSION_MAPPING = def=C
 MACRO_EXPANSION = YES
 EXPAND_ONLY_PREDEF = YES
-PREDEFINED = "SYSCALL(n,name,stub,ret,params)=ret stub params;"
+PREDEFINED = __DOXYGEN__
+EXPAND_AS_DEFINED = SYSCALL
+EXCLUDE_SYMBOLS = SYSCALL

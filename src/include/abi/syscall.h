@@ -6,7 +6,8 @@
 #ifndef ABI_SYSCALL_H
 #define ABI_SYSCALL_H
 
-enum {
+/// @brief System call numbers, derived from `abi/syscalls.def`.
+enum sysno {
 #define SYSCALL(num, name, ...) SYS_##name = num,
 #include <abi/syscalls.def>
 #undef SYSCALL
