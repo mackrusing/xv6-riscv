@@ -1,3 +1,5 @@
+#include <kernel/exec.h>
+
 #include <abi/param.h>
 #include <abi/types.h>
 #include <kernel/defs.h>

@@ -10,6 +10,7 @@
 #include <abi/stat.h>
 #include <abi/types.h>
 #include <kernel/defs.h>
+#include <kernel/exec.h>
 #include <kernel/file.h>
 #include <kernel/fs.h>
 #include <kernel/proc.h>

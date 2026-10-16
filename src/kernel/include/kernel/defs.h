@@ -16,9 +16,6 @@ struct sleeplock;
 struct stat;
 struct superblock;
 
-// exec.c
-int             kexec(char*, char**);
-
 // file.c
 struct file*    filealloc(void);
 void            fileclose(struct file*);
