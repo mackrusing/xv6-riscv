@@ -1,0 +1,23 @@
+{
+  "files.associations": {
+    ".clangd": "yaml",
+    ".clang-format": "yaml",
+    "Makefile*": "makefile",
+    "*.def": "c"
+  },
+  "[c]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.indentSize": "tabSize"
+  },
+  "[makefile]": {
+    "editor.insertSpaces": false,
+    "editor.tabSize": 8,
+    "editor.indentSize": "tabSize"
+  },
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.indentSize": "tabSize"
+  }
+}
