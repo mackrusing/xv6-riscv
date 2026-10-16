@@ -1,175 +1,115 @@
-# directories for kernel and user source directories (and tools dir)
-K := kernel
-U := user
+# base input and output directories
+S := src
 T := tools
-
-# build directory
 B := build
 
-# kernel linker script
-K_LD := $K/kernel.ld
+# subtrees
+K := kernel
+U := user
 
-# all kernel objects (kernel)
-K_OBJS := \
-	bio \
-	console \
-	entry \
-	exec \
-	file \
-	fs \
-	kalloc \
-	kernelvec \
-	log \
-	main \
-	pipe \
-	plic \
-	printk \
-	proc \
-	sleeplock \
-	spinlock \
-	start \
-	string \
-	swtch \
-	syscall \
-	sysfile \
-	sysproc \
-	trampoline \
-	trap \
-	uart \
-	virtio_disk \
-	vm
-K_OBJS := $(addsuffix .o,$(K_OBJS))
-K_OBJS := $(addprefix $B/$K/,$(K_OBJS))
+# sub-subtrees
+U_LIB := lib
+U_TESTS := tests
+T_MKFS := mkfs
 
-# the kernel executable
-K_BIN := $B/$K/kernel
+# linker scripts
+K_LD := $S/kernel.ld
+U_LD := $S/user.ld
 
-# user linker script
-U_LD = $U/user.ld
+# abi header files
+ABI_HEADERS := $(sort $(wildcard $S/include/abi/*.h))
 
-# user library objects (user/lib)
-U_LIB_OBJS := printf ulib umalloc usys
-U_LIB_OBJS := $(addsuffix .o,$(U_LIB_OBJS))
-U_LIB_OBJS := $(addprefix $B/$U/lib/,$(U_LIB_OBJS))
+# kernel header files, source files, module names, object files
+K_HEADERS := $(sort $(wildcard $S/$K/include/$K/*.h))
+K_SRC_C := $(sort $(wildcard $S/$K/*.c))
+K_SRC_S := $(sort $(wildcard $S/$K/*.S))
+K_MODS := $(sort $(basename $(notdir $(K_SRC_C) $(K_SRC_S))))
+K_OBJS := $(addprefix $B/$K/,$(addsuffix .o,$(K_MODS)))
+K_BIN := $B/kernel.bin
 
-# all user program executables (user)
-U_PROG_BINS := \
-	cat \
-	echo \
-	grep \
-	init \
-	kill \
-	ln \
-	ls \
-	mkdir \
-	rm \
-	sh \
-	sync \
-	wc
-U_PROG_BINS := $(addprefix $B/$U/_,$(U_PROG_BINS))
+# user header files
+U_HEADERS := $(sort $(wildcard $S/$U/include/$U/*.h))
 
-# all user test executables (user/tests)
-U_TEST_BINS := $(sort $(wildcard $U/tests/*.c))
-U_TEST_BINS := $(patsubst $U/tests/%.c,$B/$U/tests/_%,$(U_TEST_BINS))
+# user library header files, source files, module names, object files
+U_LIB_SRC_C := $(sort $(wildcard $S/$U/$(U_LIB)/*.c))
+U_LIB_SRC_USYS := $S/$U/$(U_LIB)/usys.pl
+U_LIB_MODS := $(sort $(basename $(notdir $(U_LIB_SRC_C) $(U_LIB_SRC_USYS))))
+U_LIB_OBJS := $(addprefix $B/$U/$(U_LIB)/,$(addsuffix .o,$(U_LIB_MODS)))
 
-# the executable used to create the filesystem
-TOOL_MKFS_DIR := $T/mkfs
-TOOL_MKFS_BIN := $B/$(TOOL_MKFS_DIR)/mkfs
+# user test source files, module names, object files, binaries
+U_TEST_SRC_C := $(sort $(wildcard $S/$U/$(U_TESTS)/*.c))
+U_TEST_MODS := $(sort $(basename $(notdir $(U_TEST_SRC_C))))
+U_TEST_OBJS := $(addprefix $B/$U/$(U_TESTS)/,$(addsuffix .o,$(U_TEST_MODS)))
+U_TEST_BINS := $(addprefix $B/$U/$(U_TESTS)/,$(addsuffix .bin,$(U_TEST_MODS)))
+
+# user program source files, module names, object files, binaries
+U_PROG_SRC_C := $(sort $(wildcard $S/$U/*.c))
+U_PROG_MODS := $(sort $(basename $(notdir $(U_PROG_SRC_C))))
+U_PROG_OBJS := $(addprefix $B/$U/,$(addsuffix .o,$(U_PROG_MODS)))
+U_PROG_BINS := $(addprefix $B/$U/,$(addsuffix .bin,$(U_PROG_MODS)))
+
+# tool mkfs source files, module names, object files, binaries
+T_MKFS_SRC_C := $T/$(T_MKFS)/mkfs.c
+T_MKFS_MODS := $(sort $(basename $(notdir $(T_MKFS_SRC_C))))
+T_MKFS_BIN := $B/mkfs.bin
 
 # the completed filesystem image
 FS_IMG := $B/fs.img
 
-# try to guess prefix if not set
-ifndef TOOLPREFIX
-TOOLPREFIX := $(shell if riscv64-unknown-elf-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
-	then echo 'riscv64-unknown-elf-'; \
-	elif riscv64-elf-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
-	then echo 'riscv64-elf-'; \
-	elif riscv64-none-elf-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
-	then echo 'riscv64-none-elf-'; \
-	elif riscv64-linux-gnu-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
-	then echo 'riscv64-linux-gnu-'; \
-	elif riscv64-unknown-linux-gnu-objdump -i 2>&1 | grep 'elf64-big' >/dev/null 2>&1; \
-	then echo 'riscv64-unknown-linux-gnu-'; \
-	else echo "***" 1>&2; \
-	echo "*** Error: Couldn't find a riscv64 version of GCC/binutils." 1>&2; \
-	echo "*** To turn off this error, run 'gmake TOOLPREFIX= ...'." 1>&2; \
-	echo "***" 1>&2; exit 1; fi)
-endif
+# toolchain
+TOOLPREFIX := riscv64-unknown-elf-
+CC := $(TOOLPREFIX)gcc
+LD := $(TOOLPREFIX)ld
+OBJCOPY := $(TOOLPREFIX)objcopy
+OBJDUMP := $(TOOLPREFIX)objdump
+QEMU := qemu-system-riscv64
 
-# qemu
-QEMU = qemu-system-riscv64
-MIN_QEMU_VERSION = 7.2
+# compiler flags
+CFLAGS := -Wall -Werror -Wno-unknown-attributes -Wno-main -O \
+    -fno-omit-frame-pointer -ggdb -gdwarf-2 -ffile-prefix-map=$(CURDIR)=. \
+    -MD -std=gnu99 -march=rv64gc -mcmodel=medany -ffreestanding -fno-common \
+    -nostdlib -fno-builtin-strncpy -fno-builtin-strncmp -fno-builtin-strlen \
+    -fno-builtin-memset -fno-builtin-memmove -fno-builtin-memcmp \
+    -fno-builtin-log -fno-builtin-bzero -fno-builtin-strchr -fno-builtin-exit \
+    -fno-builtin-malloc -fno-builtin-putc -fno-builtin-free \
+    -fno-builtin-memcpy -fno-builtin-printf -fno-builtin-fprintf \
+    -fno-builtin-vprintf -fno-stack-protector -fno-pie -no-pie
 
-# compiler toolchain
-CC = $(TOOLPREFIX)gcc
-LD = $(TOOLPREFIX)ld
-OBJCOPY = $(TOOLPREFIX)objcopy
-OBJDUMP = $(TOOLPREFIX)objdump
-
-# flags for deterministic builds
-DETFLAGS = -ffile-prefix-map=$(CURDIR)=.
-
-# compiler toolchain flags
-CFLAGS = -Wall -Werror -Wno-unknown-attributes -Wno-main
-CFLAGS += -O -fno-omit-frame-pointer -ggdb -gdwarf-2
-CFLAGS += $(DETFLAGS)
-CFLAGS += -MD
-CFLAGS += -std=gnu99
-CFLAGS += -march=rv64gc
-CFLAGS += -mcmodel=medany
-CFLAGS += -ffreestanding
-CFLAGS += -fno-common -nostdlib
-CFLAGS += -fno-builtin-strncpy -fno-builtin-strncmp -fno-builtin-strlen \
-	-fno-builtin-memset -fno-builtin-memmove -fno-builtin-memcmp \
-	-fno-builtin-log -fno-builtin-bzero -fno-builtin-strchr \
-	-fno-builtin-exit -fno-builtin-malloc -fno-builtin-putc \
-	-fno-builtin-free -fno-builtin-memcpy -fno-builtin-printf \
-	-fno-builtin-fprintf -fno-builtin-vprintf
-CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
-
-# disable position independent executables when possible
-ifneq ($(shell $(CC) -dumpspecs 2>/dev/null | grep -e '[^f]no-pie'),)
-CFLAGS += -fno-pie -no-pie
-endif
-ifneq ($(shell $(CC) -dumpspecs 2>/dev/null | grep -e '[^f]nopie'),)
-CFLAGS += -fno-pie -nopie
-endif
-
-# separate the flags for kernel and userspace code
-K_CFLAGS = -Iinclude -Ikernel/include $(CFLAGS)
-U_CFLAGS = -Iinclude -Iuser/include $(CFLAGS)
+# extra domain-specific compiler flags
+K_CFLAGS := $(CFLAGS) -I$S/include -I$S/$K/include
+U_CFLAGS := $(CFLAGS) -I$S/include -I$S/$U/include
 
 # linker flags
 LDFLAGS = -z max-page-size=4096
 
-# unique gdb port
-GDBPORT = $(shell expr `id -u` % 5000 + 25000)
-
-# set correct gdb-stub option for qemu
-QEMUGDB = $(shell if $(QEMU) -help | grep -q '^-gdb'; \
-	then echo "-gdb tcp::$(GDBPORT)"; \
-	else echo "-s -p $(GDBPORT)"; fi)
-
-# number of cpus to emulate
-ifndef CPUS
+# cores to emulate
 CPUS := 3
-endif
 
-# options for the emulator
-QEMUOPTS = -machine virt -bios none -kernel $(K_BIN) -m 128M -smp $(CPUS) -nographic
-QEMUOPTS += -global virtio-mmio.force-legacy=false
-QEMUOPTS += -drive file=$(FS_IMG),if=none,format=raw,id=x0
-QEMUOPTS += -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+# emulator flags
+QEMUOPTS := -machine virt -bios none -kernel $(K_BIN) -m 128M -smp $(CPUS) \
+    -nographic -global virtio-mmio.force-legacy=false \
+    -drive file=$(FS_IMG),if=none,format=raw,id=x0 \
+    -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 
-# grab qemu's version
-QEMU_VERSION := $(shell $(QEMU) --version | head -n 1 | sed -E 's/^QEMU emulator version ([0-9]+\.[0-9]+)\..*/\1/')
+#
+# helper functions
+#
+
+# provide disassembly and symbols files next to a compiled binary
+define disassembly # compiled-bin
+    $(OBJDUMP) -S $(1) > $(basename $(1)).asm
+    $(OBJDUMP) -t $(1) | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $(1)).sym
+endef
+
+#
+# helper rules
+#
+
+# keep intermediate object files
+.SECONDARY: $(K_OBJS) $(U_LIB_OBJS) $(U_TEST_OBJS) $(U_PROG_OBJS)
 
 # non-file related rules
-.PHONY: all kernel user mkfs clean fmt qemu qemu-gdb check-qemu-version print-gdbport
-
-# prevent deletion of intermediate files
-.PRECIOUS: $B/$K/%.o $B/$U/%.o $B/$U/lib/%.o $B/$U/tests/%.o
+.PHONY: all kernel user mkfs clean fmt qemu
 
 # default rule
 all: kernel
@@ -177,111 +117,97 @@ all: kernel
 # helper rules
 kernel: $(K_BIN)
 user: $(U_PROG_BINS) $(U_TEST_BINS)
-mkfs: $(TOOL_MKFS_BIN)
+mkfs: $(T_MKFS_BIN)
 
-# remove build artifacts
 clean:
-	rm -rf $B .gdbinit
+	rm -rf $B
 
 fmt:
-	clang-format -i $(wildcard include/abi/*.h $K/include/kernel/*.h $K/*.c tools/mkfs/*.c $U/include/user/*.h $U/lib/*.c $U/tests/*.c $U/*.c)
+	clang-format -i $(ABI_HEADERS) $(K_HEADERS) $(K_SRC_C) $(U_HEADERS) $(U_LIB_SRC_C) $(U_TEST_SRC_C) $(U_PROG_SRC_C) $(T_MKFS_SRC_C)
 
-# run the emulator
-qemu: check-qemu-version $(K_BIN) $(FS_IMG)
+qemu: $(K_BIN) $(FS_IMG)
 	$(QEMU) $(QEMUOPTS)
 
-# run the emulator but stop before first instruction and allow gdb to attach
-qemu-gdb: check-qemu-version $(K_BIN) $(FS_IMG) .gdbinit
-	@echo "*** Now run 'gdb' in another window." 1>&2
-	$(QEMU) $(QEMUOPTS) -S $(QEMUGDB)
 
-# ensure emulator version is correct
-check-qemu-version:
-	@if [ "$(shell echo "$(QEMU_VERSION) >= $(MIN_QEMU_VERSION)" | bc)" -eq 0 ]; then \
-		echo "ERROR: Need qemu version >= $(MIN_QEMU_VERSION)"; \
-		exit 1; \
-	fi
+#
+# compilation rules
+#
 
-# print the generated gdb port
-print-gdbport:
-	@echo $(GDBPORT)
-
-# build kernel executable using linker script (and provide disassembly and
-# symbols files alongside it)
+# build kernel executable + disassembly/symbol files
 $(K_BIN): $(K_OBJS) $(K_LD)
 	@mkdir -p $(@D)
 	$(LD) $(LDFLAGS) -T $(K_LD) -o $@ $(K_OBJS)
-	$(OBJDUMP) -S $@ > $(basename $@).asm
-	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
+	$(call disassembly,$@)
 
-# build kernel object files from c
-$B/$K/%.o: $K/%.c
+# build kernel objects from c
+$B/$K/%.o: $S/$K/%.c
 	@mkdir -p $(@D)
 	$(CC) $(K_CFLAGS) -c -o $@ $<
 
-# build kernel object files from assembly
-$B/$K/%.o: $K/%.S
+# build kernel objects from assembly
+$B/$K/%.o: $S/$K/%.S
 	@mkdir -p $(@D)
 	$(CC) $(K_CFLAGS) -c -o $@ $<
 
-# build user library object files from c
-$B/$U/lib/%.o: $U/lib/%.c
+# build user lib objects from c
+$B/$U/$(U_LIB)/%.o: $S/$U/$(U_LIB)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(U_CFLAGS) -c -o $@ $<
 
-# build the usys object from perl -> assembly -> object
-$B/$U/lib/usys.o: $U/lib/usys.pl
+# build usys object from perl -> assembly -> object
+$B/$U/$(U_LIB)/usys.o: $S/$U/$(U_LIB)/usys.pl
 	@mkdir -p $(@D)
 	perl $< > $(basename $@).S
 	$(CC) $(U_CFLAGS) -c -o $@ $(basename $@).S
 
-# build user test object files from c
-$B/$U/tests/%.o: $U/tests/%.c
+# build user test objects from c
+$B/$U/$(U_TESTS)/%.o: $S/$U/$(U_TESTS)/%.c
 	@mkdir -p $(@D)
-	$(CC) $(U_CFLAGS) -Ikernel/include -c -o $@ $<
+	$(CC) $(U_CFLAGS) -I$S/$K/include -c -o $@ $<
 
-# build user program object files from c
-$B/$U/%.o: $U/%.c
+# build user test executables + disassembly/symbols files
+$B/$U/$(U_TESTS)/%.bin: $B/$U/$(U_TESTS)/%.o $(U_LIB_OBJS) $(U_LD)
+	@mkdir -p $(@D)
+	$(LD) $(LDFLAGS) -T $(U_LD) -o $@ $< $(U_LIB_OBJS)
+	$(call disassembly,$@)
+
+# build forktest executable + disassembly/symbols files with less library code
+$B/$U/$(U_TESTS)/forktest.bin: $B/$U/$(U_TESTS)/forktest.o $B/$U/$(U_LIB)/ulib.o $B/$U/$(U_LIB)/usys.o
+	@mkdir -p $(@D)
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $< $B/$U/$(U_LIB)/ulib.o $B/$U/$(U_LIB)/usys.o
+	$(call disassembly,$@)
+
+# build user program objects from c
+$B/$U/%.o: $S/$U/%.c
 	@mkdir -p $(@D)
 	$(CC) $(U_CFLAGS) -c -o $@ $<
 
-# build user executables using linker script (and provide disassembly and
-# symbols files alongside them)
-$B/$U/_%: $B/$U/%.o $(U_LIB_OBJS) $(U_LD)
+# build user program executables + disassembly/symbols files
+$B/$U/%.bin: $B/$U/%.o $(U_LIB_OBJS) $(U_LD)
 	@mkdir -p $(@D)
 	$(LD) $(LDFLAGS) -T $(U_LD) -o $@ $< $(U_LIB_OBJS)
-	$(OBJDUMP) -S $@ > $(basename $@).asm
-	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
+	$(call disassembly,$@)
 
-# build user test executables using linker script (and provide disassembly and
-# symbols files alongside them)
-$B/$U/tests/_%: $B/$U/tests/%.o $(U_LIB_OBJS) $(U_LD)
-	@mkdir -p $(@D)
-	$(LD) $(LDFLAGS) -T $(U_LD) -o $@ $< $(U_LIB_OBJS)
-	$(OBJDUMP) -S $@ > $(basename $@).asm
-	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
-
-# build forktest executable with less of library code to save on space in order
-# to max out proc table. disassembly and symbols files are also created.
-$B/$U/tests/_forktest: $B/$U/tests/forktest.o $B/$U/lib/ulib.o $B/$U/lib/usys.o
-	@mkdir -p $(@D)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $< $B/$U/lib/ulib.o $B/$U/lib/usys.o
-	$(OBJDUMP) -S $@ > $(basename $@).asm
-	$(OBJDUMP) -t $@ | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > $(basename $@).sym
+#
+# filesystem
+#
 
 # create the mkfs executable with host toolchain
-$(TOOL_MKFS_BIN): $(TOOL_MKFS_DIR)/mkfs.c include/abi/param.h include/abi/stat.h include/abi/types.h $K/include/kernel/fs.h
+$(T_MKFS_BIN): $(T_MKFS_SRC_C) $S/include/abi/fs.h $S/include/abi/param.h $S/include/abi/stat.h $S/include/abi/types.h $S/$K/include/$K/fs.h
 	@mkdir -p $(@D)
-	gcc -Wno-unknown-attributes -Iinclude -Ikernel/include -o $@ $<
+	cc -Wno-unknown-attributes -I$S/include -I$S/$K/include -o $@ $<
 
 # create the disk image
-$(FS_IMG): $(TOOL_MKFS_BIN) README $(U_PROG_BINS) $(U_TEST_BINS)
+$(FS_IMG): $(T_MKFS_BIN) README $(U_PROG_BINS) $(U_TEST_BINS)
 	@mkdir -p $(@D)
-	$(TOOL_MKFS_BIN) $@ README $(U_PROG_BINS) $(U_TEST_BINS)
+	$(T_MKFS_BIN) $@ README $(U_PROG_BINS) $(U_TEST_BINS)
 
-# create gdb init file from template
-.gdbinit: .gdbinit.tmpl-riscv
-	sed "s/:1234/:$(GDBPORT)/; s|build/kernel/kernel|$(K_BIN)|" < $^ > $@
+#
+# dependency files
+#
 
 # load dependency files
--include $B/$K/*.d $B/$U/*.d $B/$U/lib/*.d $B/$U/tests/*.d
+-include $B/$K/*.d
+-include $B/$U/*.d
+-include $B/$U/$(U_LIB)/*.d
+-include $B/$U/$(U_TESTS)/*.d
