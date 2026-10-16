@@ -13,6 +13,8 @@
 // * Only one process at a time can use a buffer,
 //     so do not keep them longer than necessary.
 
+#include <kernel/bio.h>
+
 #include <abi/param.h>
 #include <abi/types.h>
 #include <kernel/buf.h>

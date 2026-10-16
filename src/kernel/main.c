@@ -1,3 +1,4 @@
+#include <kernel/bio.h>
 #include <kernel/defs.h>
 
 volatile static int started = 0;

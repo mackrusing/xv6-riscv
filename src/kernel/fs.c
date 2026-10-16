@@ -9,14 +9,16 @@
 // routines.  The (higher-level) system call implementations
 // are in sysfile.c.
 
+#include <kernel/fs.h>
+
 #include <abi/fs.h>
 #include <abi/param.h>
 #include <abi/stat.h>
 #include <abi/types.h>
+#include <kernel/bio.h>
 #include <kernel/buf.h>
 #include <kernel/defs.h>
 #include <kernel/file.h>
-#include <kernel/fs.h>
 #include <kernel/proc.h>
 
 #define min(a, b) ((a) < (b) ? (a) : (b))

@@ -1,5 +1,6 @@
 #include <abi/param.h>
 #include <abi/types.h>
+#include <kernel/bio.h>
 #include <kernel/buf.h>
 #include <kernel/defs.h>
 #include <kernel/fs.h>
