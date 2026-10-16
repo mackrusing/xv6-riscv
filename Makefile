@@ -109,7 +109,7 @@ endef
 .SECONDARY: $(K_OBJS) $(U_LIB_OBJS) $(U_TEST_OBJS) $(U_PROG_OBJS)
 
 # non-file related rules
-.PHONY: all kernel user mkfs clean fmt qemu
+.PHONY: all kernel user mkfs clean docs fmt qemu
 
 # default rule
 all: kernel
@@ -121,6 +121,10 @@ mkfs: $(T_MKFS_BIN)
 
 clean:
 	rm -rf $B
+
+docs:
+	@mkdir -p build/docs
+	doxygen Doxyfile
 
 fmt:
 	clang-format -i $(ABI_HEADERS) $(K_HEADERS) $(K_SRC_C) $(U_HEADERS) $(U_LIB_SRC_C) $(U_TEST_SRC_C) $(U_PROG_SRC_C) $(T_MKFS_SRC_C)

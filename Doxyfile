@@ -1,0 +1,36 @@
+# project
+PROJECT_NAME = xv6-riscv
+PROJECT_BRIEF = "A teaching Unix-like kernel for RISC-V"
+OUTPUT_DIRECTORY = build/docs
+OPTIMIZE_OUTPUT_FOR_C = YES
+
+# inputs
+INPUT = docs/index.md src/include src/kernel src/user tools
+RECURSIVE = YES
+FILE_PATTERNS = *.c *.h *.md
+EXCLUDE_PATTERNS = */user/tests/*
+USE_MDFILE_AS_MAINPAGE = docs/index.md
+STRIP_FROM_PATH = .
+STRIP_FROM_INC_PATH = src/include src/kernel/include src/user/include
+
+# document everything, even before it has doc comments
+EXTRACT_ALL = YES
+EXTRACT_STATIC = YES
+SOURCE_BROWSER = YES
+WARN_IF_UNDOCUMENTED = NO
+QUIET = YES
+
+# preprocessing, mirroring the Makefile's include paths
+ENABLE_PREPROCESSING = YES
+SEARCH_INCLUDES = YES
+INCLUDE_PATH = src/include src/kernel/include src/user/include
+
+# output: HTML only, themed
+GENERATE_LATEX = NO
+GENERATE_TREEVIEW = YES
+DISABLE_INDEX = NO
+FULL_SIDEBAR = NO
+HTML_COLORSTYLE = LIGHT
+HTML_EXTRA_STYLESHEET = docs/doxygen-awesome-css/doxygen-awesome.css \
+    docs/doxygen-awesome-css/doxygen-awesome-sidebar-only.css
+HAVE_DOT = NO
