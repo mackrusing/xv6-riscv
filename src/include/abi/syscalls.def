@@ -38,23 +38,168 @@ SYSCALL(1, fork, fork, int, (void))
 /// @return This function never returns.
 SYSCALL(2, exit, exit, int, (int status))
 
-SYSCALL(3, wait, wait, int, (int *))
-SYSCALL(4, pipe, pipe, int, (int *))
-SYSCALL(5, read, read, int, (int, void *, int))
-SYSCALL(6, kill, kill, int, (int))
-SYSCALL(7, exec, exec, int, (const char *, char **))
-SYSCALL(8, fstat, fstat, int, (int fd, struct stat *))
-SYSCALL(9, chdir, chdir, int, (const char *))
-SYSCALL(10, dup, dup, int, (int))
+/// @brief Wait for a child process to exit.
+///
+/// Blocks until one of the calling process's children exits, then frees it.
+///
+/// @param[out] status If not null, the exited child's exit status is stored
+/// here.
+///
+/// @return The process ID of the exited child, or -1 if the calling process has
+/// no children, was killed while waiting, or `status` is not a valid address.
+SYSCALL(3, wait, wait, int, (int *status))
+
+/// @brief Create a pipe.
+///
+/// @param[out] fds Array of two integers. `fds[0]` receives the file descriptor
+/// of the read end and `fds[1]` receives the file descriptor of the write end.
+///
+/// @return 0 on success, or -1 if the pipe or its file descriptors could not be
+/// allocated.
+SYSCALL(4, pipe, pipe, int, (int *fds))
+
+/// @brief Read from a file descriptor.
+///
+/// @param[in] fd The file descriptor to read from.
+/// @param[out] buf The buffer to read into.
+/// @param[in] n The maximum number of bytes to read.
+///
+/// @return The number of bytes read, 0 at end of file, or -1 on error.
+SYSCALL(5, read, read, int, (int fd, void *buf, int n))
+
+/// @brief Kill a process.
+///
+/// Marks the process as killed. It exits the next time it returns to user
+/// space; if it is sleeping, it is woken up.
+///
+/// @param[in] pid The process ID of the process to kill.
+///
+/// @return 0 on success, or -1 if no process has ID `pid`.
+SYSCALL(6, kill, kill, int, (int pid))
+
+/// @brief Replace the current process image with a new program.
+///
+/// @param[in] path Path of the executable to load.
+/// @param[in] argv Null-terminated array of argument strings, passed to the new
+/// program's `main`.
+///
+/// @return Does not return on success. Otherwise, returns -1 and the calling
+/// process is left unchanged.
+SYSCALL(7, exec, exec, int, (const char *path, char **argv))
+
+/// @brief Get information about an open file.
+///
+/// @param[in] fd The file descriptor of the file.
+/// @param[out] st The structure to fill with the file's metadata.
+///
+/// @return 0 on success, or -1 on error.
+SYSCALL(8, fstat, fstat, int, (int fd, struct stat *st))
+
+/// @brief Change the current working directory.
+///
+/// @param[in] path Path of the new working directory.
+///
+/// @return 0 on success, or -1 if `path` does not exist or is not a directory.
+SYSCALL(9, chdir, chdir, int, (const char *path))
+
+/// @brief Duplicate a file descriptor.
+///
+/// @param[in] fd The file descriptor to duplicate.
+///
+/// @return The lowest-numbered unused file descriptor, now referring to the
+/// same open file as `fd`, or -1 on error.
+SYSCALL(10, dup, dup, int, (int fd))
+
+/// @brief Get the process ID of the current process.
+///
+/// @return The process ID of the calling process.
 SYSCALL(11, getpid, getpid, int, (void))
-SYSCALL(12, sbrk, sys_sbrk, char *, (int, int))
-SYSCALL(13, pause, pause, int, (int))
+
+/// @brief Grow or shrink the process's memory.
+///
+/// User code normally calls the `sbrk` and `sbrklazy` wrappers instead.
+///
+/// @param[in] n The number of bytes to grow (positive) or shrink (negative)
+/// memory by.
+/// @param[in] type `SBRK_EAGER` to allocate the memory now, or `SBRK_LAZY` to
+/// allocate pages only when they are first accessed. Shrinking is always eager.
+///
+/// @return The previous end of the process's memory, or `(char *)-1` on error.
+SYSCALL(12, sbrk, sys_sbrk, char *, (int n, int type))
+
+/// @brief Sleep for a number of clock ticks.
+///
+/// @param[in] n The number of ticks to sleep for. Negative values are treated
+/// as 0.
+///
+/// @return 0 on success, or -1 if the process was killed while sleeping.
+SYSCALL(13, pause, pause, int, (int n))
+
+/// @brief Get the time since boot.
+///
+/// @return The number of clock ticks since the system started.
 SYSCALL(14, uptime, uptime, int, (void))
-SYSCALL(15, open, open, int, (const char *, int))
-SYSCALL(16, write, write, int, (int, const void *, int))
-SYSCALL(17, mknod, mknod, int, (const char *, short, short))
-SYSCALL(18, unlink, unlink, int, (const char *))
-SYSCALL(19, link, link, int, (const char *, const char *))
-SYSCALL(20, mkdir, mkdir, int, (const char *))
-SYSCALL(21, close, close, int, (int))
+
+/// @brief Open a file.
+///
+/// @param[in] path Path of the file to open.
+/// @param[in] flags Bitwise OR of the `O_*` flags in `abi/fcntl.h`.
+///
+/// @return The lowest-numbered unused file descriptor, now referring to the
+/// opened file, or -1 on error.
+SYSCALL(15, open, open, int, (const char *path, int flags))
+
+/// @brief Write to a file descriptor.
+///
+/// @param[in] fd The file descriptor to write to.
+/// @param[in] buf The buffer to write from.
+/// @param[in] n The number of bytes to write.
+///
+/// @return The number of bytes written, or -1 on error.
+SYSCALL(16, write, write, int, (int fd, const void *buf, int n))
+
+/// @brief Create a device file.
+///
+/// @param[in] path Path of the device file to create.
+/// @param[in] major The device's major number.
+/// @param[in] minor The device's minor number.
+///
+/// @return 0 on success, or -1 on error.
+SYSCALL(17, mknod, mknod, int, (const char *path, short major, short minor))
+
+/// @brief Remove a directory entry.
+///
+/// The file itself is freed once it has no remaining links and is no longer
+/// open.
+///
+/// @param[in] path Path of the entry to remove. Directories must be empty.
+///
+/// @return 0 on success, or -1 on error.
+SYSCALL(18, unlink, unlink, int, (const char *path))
+
+/// @brief Create a new name for an existing file.
+///
+/// @param[in] old Path of the existing file. Must not be a directory.
+/// @param[in] new Path of the new link. Must be on the same device as `old`.
+///
+/// @return 0 on success, or -1 on error.
+SYSCALL(19, link, link, int, (const char *old, const char *new))
+
+/// @brief Create a directory.
+///
+/// @param[in] path Path of the directory to create.
+///
+/// @return 0 on success, or -1 on error.
+SYSCALL(20, mkdir, mkdir, int, (const char *path))
+
+/// @brief Close a file descriptor.
+///
+/// @param[in] fd The file descriptor to close.
+///
+/// @return 0 on success, or -1 if `fd` is not an open file descriptor.
+SYSCALL(21, close, close, int, (int fd))
+
+/// @brief Wait until all pending file system operations are on disk.
+///
+/// @return Always returns 0.
 SYSCALL(22, sync, sync, int, (void))
