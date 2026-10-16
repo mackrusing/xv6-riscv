@@ -1,4 +1,5 @@
 #include <kernel/bio.h>
+#include <kernel/console.h>
 #include <kernel/defs.h>
 
 volatile static int started = 0;

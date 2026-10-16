@@ -5,6 +5,7 @@
 #include <stdarg.h>
 
 #include <abi/types.h>
+#include <kernel/console.h>
 #include <kernel/defs.h>
 #include <kernel/spinlock.h>
 

@@ -2,6 +2,7 @@
 // low-level driver for 16550a UART.
 //
 
+#include <kernel/console.h>
 #include <kernel/defs.h>
 #include <kernel/memlayout.h>
 #include <kernel/sleeplock.h>

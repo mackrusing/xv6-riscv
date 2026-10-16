@@ -9,6 +9,8 @@
 //   control-p -- print process list
 //
 
+#include <kernel/console.h>
+
 #include <stdarg.h>
 
 #include <abi/file.h>
