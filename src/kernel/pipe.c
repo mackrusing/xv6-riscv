@@ -1,6 +1,7 @@
 #include <abi/types.h>
 #include <kernel/defs.h>
 #include <kernel/file.h>
+#include <kernel/kalloc.h>
 #include <kernel/proc.h>
 #include <kernel/spinlock.h>
 

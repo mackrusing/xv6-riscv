@@ -46,11 +46,6 @@ int             writei(struct inode*, int, uint64, uint, uint);
 void            itrunc(struct inode*);
 void            ireclaim(int);
 
-// kalloc.c
-void*           kalloc(void);
-void            kfree(void *);
-void            kinit(void);
-
 // log.c
 void            initlog(int, struct superblock*);
 void            log_write(struct buf*);

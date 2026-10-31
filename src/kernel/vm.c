@@ -1,5 +1,6 @@
 #include <abi/types.h>
 #include <kernel/defs.h>
+#include <kernel/kalloc.h>
 #include <kernel/memlayout.h>
 #include <kernel/riscv.h>
 

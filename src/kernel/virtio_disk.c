@@ -9,6 +9,7 @@
 #include <kernel/buf.h>
 #include <kernel/defs.h>
 #include <kernel/fs.h>
+#include <kernel/kalloc.h>
 #include <kernel/memlayout.h>
 #include <kernel/riscv.h>
 #include <kernel/spinlock.h>

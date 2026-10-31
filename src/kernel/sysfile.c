@@ -13,6 +13,7 @@
 #include <kernel/exec.h>
 #include <kernel/file.h>
 #include <kernel/fs.h>
+#include <kernel/kalloc.h>
 #include <kernel/proc.h>
 #include <kernel/riscv.h>
 #include <kernel/syscall.h>

@@ -2,6 +2,8 @@
 // kernel stacks, page-table pages,
 // and pipe buffers. Allocates whole 4096-byte pages.
 
+#include <kernel/kalloc.h>
+
 #include <abi/types.h>
 #include <kernel/defs.h>
 #include <kernel/memlayout.h>
