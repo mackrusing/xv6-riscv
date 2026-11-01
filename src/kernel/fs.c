@@ -22,6 +22,7 @@
 #include <kernel/log.h>
 #include <kernel/printk.h>
 #include <kernel/proc.h>
+#include <kernel/sleeplock.h>
 #include <kernel/spinlock.h>
 
 #define min(a, b) ((a) < (b) ? (a) : (b))

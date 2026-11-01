@@ -1,8 +1,9 @@
 // Sleeping locks
 
+#include <kernel/sleeplock.h>
+
 #include <kernel/defs.h>
 #include <kernel/proc.h>
-#include <kernel/sleeplock.h>
 #include <kernel/spinlock.h>
 
 void
