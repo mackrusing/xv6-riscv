@@ -5,6 +5,29 @@ Diagnostics:
     AnalyzeAngledIncludes: true
 ---
 If:
+  PathMatch: src/include/abi/syscalls\.def
+Diagnostics:
+  MissingIncludes: None
+CompileFlags:
+  Add:
+    - -xc
+    - -includeabi/stat.h
+    - -DSYSCALL(num,name,stub,ret,params)=ret stub params;
+---
+If:
+  PathMatch: src/kernel/include/kernel/syscall\.h
+CompileFlags:
+  Add:
+    - -includeabi/types.h
+---
+If:
+  PathMatch: src/kernel/syscall\.c
+Diagnostics:
+  Includes:
+    IgnoreHeader:
+      - kernel/syscall\.h
+---
+If:
   PathExclude: tools/.*
 CompileFlags:
   Add:
@@ -21,19 +44,3 @@ Diagnostics:
       - math\.h
       - stdlib\.h
       - stdio\.h
----
-If:
-  PathMatch: src/include/abi/syscalls\.def
-Diagnostics:
-  MissingIncludes: None
-CompileFlags:
-  Add:
-    - -xc
-    - -includeabi/stat.h
-    - -DSYSCALL(num,name,stub,ret,params)=ret stub params;
----
-If:
-  PathMatch: src/kernel/include/kernel/syscall\.h
-CompileFlags:
-  Add:
-    - -includeabi/types.h
