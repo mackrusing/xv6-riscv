@@ -175,9 +175,9 @@ $B/$U/$(U_TESTS)/%.bin: $B/$U/$(U_TESTS)/%.o $(U_LIB_OBJS) $(U_LD)
 	$(call disassembly,$@)
 
 # build forktest executable + disassembly/symbols files with less library code
-$B/$U/$(U_TESTS)/forktest.bin: $B/$U/$(U_TESTS)/forktest.o $B/$U/$(U_LIB)/ulib.o $B/$U/$(U_LIB)/usys.o
+$B/$U/$(U_TESTS)/forktest.bin: $B/$U/$(U_TESTS)/forktest.o $B/$U/$(U_LIB)/ulib.o $B/$U/$(U_LIB)/usys.o $(U_LD)
 	@mkdir -p $(@D)
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $< $B/$U/$(U_LIB)/ulib.o $B/$U/$(U_LIB)/usys.o
+	$(LD) $(LDFLAGS) -T $(U_LD) -o $@ $< $B/$U/$(U_LIB)/ulib.o $B/$U/$(U_LIB)/usys.o
 	$(call disassembly,$@)
 
 # build user program objects from c
