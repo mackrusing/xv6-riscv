@@ -5,6 +5,7 @@
 #include <kernel/kalloc.h>
 #include <kernel/log.h>
 #include <kernel/memlayout.h>
+#include <kernel/printk.h>
 #include <kernel/proc.h>
 #include <kernel/riscv.h>
 #include <kernel/spinlock.h>

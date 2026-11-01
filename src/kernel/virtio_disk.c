@@ -11,6 +11,7 @@
 #include <kernel/fs.h>
 #include <kernel/kalloc.h>
 #include <kernel/memlayout.h>
+#include <kernel/printk.h>
 #include <kernel/riscv.h>
 #include <kernel/spinlock.h>
 #include <kernel/virtio.h>

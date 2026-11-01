@@ -19,6 +19,7 @@
 #include <abi/types.h>
 #include <kernel/buf.h>
 #include <kernel/defs.h>
+#include <kernel/printk.h>
 
 struct {
   struct spinlock lock;

@@ -2,6 +2,7 @@
 #include <kernel/console.h>
 #include <kernel/defs.h>
 #include <kernel/kalloc.h>
+#include <kernel/printk.h>
 
 volatile static int started = 0;
 

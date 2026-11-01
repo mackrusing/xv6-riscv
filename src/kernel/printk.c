@@ -2,6 +2,8 @@
 // formatted console output -- printk, panic.
 //
 
+#include <kernel/printk.h>
+
 #include <stdarg.h>
 
 #include <abi/types.h>

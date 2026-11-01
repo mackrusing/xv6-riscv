@@ -10,6 +10,7 @@
 #include <kernel/fs.h>
 #include <kernel/log.h>
 #include <kernel/pipe.h>
+#include <kernel/printk.h>
 #include <kernel/proc.h>
 
 struct devsw devsw[NDEV];

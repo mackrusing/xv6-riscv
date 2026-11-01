@@ -16,6 +16,7 @@
 #include <kernel/kalloc.h>
 #include <kernel/log.h>
 #include <kernel/pipe.h>
+#include <kernel/printk.h>
 #include <kernel/proc.h>
 #include <kernel/riscv.h>
 #include <kernel/syscall.h>

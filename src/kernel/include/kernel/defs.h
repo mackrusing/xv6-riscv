@@ -44,11 +44,6 @@ int             writei(struct inode*, int, uint64, uint, uint);
 void            itrunc(struct inode*);
 void            ireclaim(int);
 
-// printk.c
-int             printk(char*, ...) __attribute__ ((format (printf, 1, 2)));
-void            panic(char*) __attribute__((noreturn));
-void            printkinit(void);
-
 // proc.c
 int             cpuid(void);
 void            kexit(int);

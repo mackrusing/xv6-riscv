@@ -2,6 +2,7 @@
 
 #include <abi/types.h>
 #include <kernel/defs.h>
+#include <kernel/printk.h>
 #include <kernel/proc.h>
 #include <kernel/riscv.h>
 #include <kernel/spinlock.h>

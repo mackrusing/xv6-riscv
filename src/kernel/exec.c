@@ -5,6 +5,7 @@
 #include <kernel/defs.h>
 #include <kernel/elf.h>
 #include <kernel/log.h>
+#include <kernel/printk.h>
 #include <kernel/proc.h>
 #include <kernel/riscv.h>
 

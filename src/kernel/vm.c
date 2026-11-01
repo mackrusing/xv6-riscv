@@ -2,6 +2,7 @@
 #include <kernel/defs.h>
 #include <kernel/kalloc.h>
 #include <kernel/memlayout.h>
+#include <kernel/printk.h>
 #include <kernel/riscv.h>
 
 /*
