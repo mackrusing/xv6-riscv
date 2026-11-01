@@ -1,3 +1,5 @@
+#include <kernel/pipe.h>
+
 #include <abi/types.h>
 #include <kernel/defs.h>
 #include <kernel/file.h>

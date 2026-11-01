@@ -9,7 +9,6 @@ struct buf;
 struct context;
 struct file;
 struct inode;
-struct pipe;
 struct proc;
 struct spinlock;
 struct sleeplock;
@@ -44,12 +43,6 @@ void            stati(struct inode*, struct stat*);
 int             writei(struct inode*, int, uint64, uint, uint);
 void            itrunc(struct inode*);
 void            ireclaim(int);
-
-// pipe.c
-int             pipealloc(struct file**, struct file**);
-void            pipeclose(struct pipe*, int);
-int             piperead(struct pipe*, uint64, int);
-int             pipewrite(struct pipe*, uint64, int);
 
 // printk.c
 int             printk(char*, ...) __attribute__ ((format (printf, 1, 2)));
