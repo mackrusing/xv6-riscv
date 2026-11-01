@@ -3,6 +3,7 @@
 #include <kernel/defs.h>
 #include <kernel/memlayout.h>
 #include <kernel/proc.h>
+#include <kernel/spinlock.h>
 #include <kernel/syscall.h>
 
 uint64

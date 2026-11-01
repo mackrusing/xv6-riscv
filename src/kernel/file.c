@@ -12,6 +12,7 @@
 #include <kernel/pipe.h>
 #include <kernel/printk.h>
 #include <kernel/proc.h>
+#include <kernel/spinlock.h>
 
 struct devsw devsw[NDEV];
 struct {

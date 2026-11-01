@@ -22,6 +22,7 @@
 #include <kernel/log.h>
 #include <kernel/printk.h>
 #include <kernel/proc.h>
+#include <kernel/spinlock.h>
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 // there should be one superblock per disk device, but we run with

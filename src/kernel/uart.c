@@ -6,6 +6,7 @@
 #include <kernel/defs.h>
 #include <kernel/memlayout.h>
 #include <kernel/sleeplock.h>
+#include <kernel/spinlock.h>
 
 // the UART control registers are memory-mapped
 // at address UART0. this macro returns the

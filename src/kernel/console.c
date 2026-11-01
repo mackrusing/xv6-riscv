@@ -17,6 +17,7 @@
 #include <abi/types.h>
 #include <kernel/defs.h>
 #include <kernel/file.h>
+#include <kernel/spinlock.h>
 
 #define BACKSPACE 0x100       // erase the last output character
 #define C(x)      ((x) - '@') // Control-x

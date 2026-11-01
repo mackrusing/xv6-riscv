@@ -7,7 +7,7 @@
 #include <kernel/defs.h>
 #include <kernel/fs.h>
 #include <kernel/printk.h>
-// #include <kernel/spinlock.h>
+#include <kernel/spinlock.h>
 // #include <kernel/syscall.h>
 
 // Simple logging that allows concurrent FS system calls.

@@ -3,6 +3,7 @@
 #include <kernel/defs.h>
 #include <kernel/proc.h>
 #include <kernel/sleeplock.h>
+#include <kernel/spinlock.h>
 
 void
 initsleeplock(struct sleeplock *lk, char *name)
