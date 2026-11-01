@@ -3,6 +3,8 @@
 
 #include <abi/types.h>
 
+struct buf;
+
 void binit(void);
 struct buf *bread(uint, uint);
 void brelse(struct buf *);
