@@ -23,7 +23,7 @@ Diagnostics:
       - stdio\.h
 ---
 If:
-  PathMatch: .*\.def
+  PathMatch: src/include/abi/syscalls\.def
 Diagnostics:
   MissingIncludes: None
 CompileFlags:
@@ -31,3 +31,9 @@ CompileFlags:
     - -xc
     - -includeabi/stat.h
     - -DSYSCALL(num,name,stub,ret,params)=ret stub params;
+---
+If:
+  PathMatch: src/kernel/include/kernel/syscall\.h
+CompileFlags:
+  Add:
+    - -includeabi/types.h
