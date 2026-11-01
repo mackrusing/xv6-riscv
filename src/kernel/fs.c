@@ -19,6 +19,7 @@
 #include <kernel/buf.h>
 #include <kernel/defs.h>
 #include <kernel/file.h>
+#include <kernel/log.h>
 #include <kernel/proc.h>
 
 #define min(a, b) ((a) < (b) ? (a) : (b))

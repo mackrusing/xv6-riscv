@@ -3,6 +3,7 @@
 #include <kernel/defs.h>
 #include <kernel/exec.h>
 #include <kernel/kalloc.h>
+#include <kernel/log.h>
 #include <kernel/memlayout.h>
 #include <kernel/proc.h>
 #include <kernel/riscv.h>

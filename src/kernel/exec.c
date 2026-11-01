@@ -4,6 +4,7 @@
 #include <abi/types.h>
 #include <kernel/defs.h>
 #include <kernel/elf.h>
+#include <kernel/log.h>
 #include <kernel/proc.h>
 #include <kernel/riscv.h>
 

@@ -8,6 +8,7 @@
 #include <kernel/defs.h>
 #include <kernel/file.h>
 #include <kernel/fs.h>
+#include <kernel/log.h>
 #include <kernel/proc.h>
 
 struct devsw devsw[NDEV];

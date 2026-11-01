@@ -1,11 +1,13 @@
+#include <kernel/log.h>
+
 #include <abi/param.h>
 #include <abi/types.h>
 #include <kernel/bio.h>
 #include <kernel/buf.h>
 #include <kernel/defs.h>
 #include <kernel/fs.h>
-#include <kernel/spinlock.h>
-#include <kernel/syscall.h>
+// #include <kernel/spinlock.h>
+// #include <kernel/syscall.h>
 
 // Simple logging that allows concurrent FS system calls.
 //

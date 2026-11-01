@@ -14,7 +14,6 @@ struct proc;
 struct spinlock;
 struct sleeplock;
 struct stat;
-struct superblock;
 
 // file.c
 struct file*    filealloc(void);
@@ -45,12 +44,6 @@ void            stati(struct inode*, struct stat*);
 int             writei(struct inode*, int, uint64, uint, uint);
 void            itrunc(struct inode*);
 void            ireclaim(int);
-
-// log.c
-void            initlog(int, struct superblock*);
-void            log_write(struct buf*);
-void            begin_op(void);
-void            end_op(void);
 
 // pipe.c
 int             pipealloc(struct file**, struct file**);
