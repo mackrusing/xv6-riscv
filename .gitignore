@@ -1,9 +1,9 @@
 # build artifacts
 /build/
 
-# gdb
-.gdbinit
-
-# tooling
+# clangd
 /.cache/
 compile_commands.json
+
+# local environment
+.env*
