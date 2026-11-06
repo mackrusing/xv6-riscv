@@ -13,7 +13,7 @@
 #include <kernel/memlayout.h>
 #include <kernel/riscv.h>
 
-.section trampsec
+.section trampsec, "ax"
 .globl trampoline
 .globl usertrap
 trampoline:
