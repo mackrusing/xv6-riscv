@@ -64,15 +64,21 @@ OBJDUMP := llvm-objdump
 QEMU := qemu-system-riscv64
 
 # compiler flags
-CFLAGS := -Wall -Werror -Wno-unknown-attributes -Wno-main -O \
-    -fno-omit-frame-pointer -g -ffile-prefix-map=$(CURDIR)=. \
-    -MD -std=gnu99 -march=rv64gc -mcmodel=medany -ffreestanding -fno-common \
-    -nostdlib -fno-builtin-strncpy -fno-builtin-strncmp -fno-builtin-strlen \
-    -fno-builtin-memset -fno-builtin-memmove -fno-builtin-memcmp \
-    -fno-builtin-log -fno-builtin-bzero -fno-builtin-strchr -fno-builtin-exit \
-    -fno-builtin-malloc -fno-builtin-putc -fno-builtin-free \
-    -fno-builtin-memcpy -fno-builtin-printf -fno-builtin-fprintf \
-    -fno-builtin-vprintf -fno-stack-protector -fno-pie
+CFLAGS :=
+# language features
+CFLAGS += -std=gnu99 -fno-common -fno-pie
+# extra info on target arch and how c generates address instructions
+CFLAGS += -march=rv64gc -mcmodel=medany
+# freestanding environment
+CFLAGS += -ffreestanding -fno-stack-protector
+# optimizations
+CFLAGS += -O
+# debugging, keep frame pointer for backtrace, store relative paths in dbg info
+CFLAGS += -g -fno-omit-frame-pointer -ffile-prefix-map=$(CURDIR)=.
+# warnings
+CFLAGS += -Wall -Werror
+# generate make dependency files
+CFLAGS += -MD
 
 # extra domain-specific compiler flags
 K_CFLAGS := $(CFLAGS) -I$S/include -I$S/$K/include
