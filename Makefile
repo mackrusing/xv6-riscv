@@ -57,30 +57,29 @@ T_MKFS_BIN := $B/mkfs.bin
 FS_IMG := $B/fs.img
 
 # toolchain
-TOOLPREFIX := riscv64-unknown-elf-
-CC := $(TOOLPREFIX)gcc
-LD := $(TOOLPREFIX)ld
-OBJCOPY := $(TOOLPREFIX)objcopy
-OBJDUMP := $(TOOLPREFIX)objdump
+CC := clang --target=riscv64-unknown-elf
+LD := ld.lld
+OBJCOPY := llvm-objcopy
+OBJDUMP := llvm-objdump
 QEMU := qemu-system-riscv64
 
 # compiler flags
 CFLAGS := -Wall -Werror -Wno-unknown-attributes -Wno-main -O \
-    -fno-omit-frame-pointer -ggdb -gdwarf-2 -ffile-prefix-map=$(CURDIR)=. \
+    -fno-omit-frame-pointer -g -ffile-prefix-map=$(CURDIR)=. \
     -MD -std=gnu99 -march=rv64gc -mcmodel=medany -ffreestanding -fno-common \
     -nostdlib -fno-builtin-strncpy -fno-builtin-strncmp -fno-builtin-strlen \
     -fno-builtin-memset -fno-builtin-memmove -fno-builtin-memcmp \
     -fno-builtin-log -fno-builtin-bzero -fno-builtin-strchr -fno-builtin-exit \
     -fno-builtin-malloc -fno-builtin-putc -fno-builtin-free \
     -fno-builtin-memcpy -fno-builtin-printf -fno-builtin-fprintf \
-    -fno-builtin-vprintf -fno-stack-protector -fno-pie -no-pie
+    -fno-builtin-vprintf -fno-stack-protector -fno-pie
 
 # extra domain-specific compiler flags
 K_CFLAGS := $(CFLAGS) -I$S/include -I$S/$K/include
 U_CFLAGS := $(CFLAGS) -I$S/include -I$S/$U/include
 
 # linker flags
-LDFLAGS = -z max-page-size=4096
+LDFLAGS = -z max-page-size=4096 --discard-locals --no-rosegment
 
 # cores to emulate
 CPUS := 3
